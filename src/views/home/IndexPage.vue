@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import Background from '/components/Background.vue'
+import DesktopBackground from "/components/DesktopBackground.vue";
 import DesktopIcon from "./components/DesktopIcon.vue";
-import Search from "./components/Search.vue";
+import SearchEngines from "./components/SearchEngines.vue";
 </script>
 
 <template>
   <div class="home">
-    <Background />
+    <DesktopBackground />
     <DesktopIcon />
-    <Search />
+    <SearchEngines />
   </div>
 </template>
 

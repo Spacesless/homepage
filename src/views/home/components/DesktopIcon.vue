@@ -1,3 +1,27 @@
+<template>
+  <div class="desktop">
+    <a-dropdown :trigger="['contextmenu']">
+      <div
+        v-for="item in iconList"
+        :key="item.url"
+        class="desktop-item"
+        @dblclick="gotoUrl(item.url)"
+      >
+        <img class="desktop-item__icon" :src="item.icon" :alt="item.name" />
+        <p class="desktop-item__name">{{ item.name }}</p>
+      </div>
+
+      <template #overlay>
+        <a-menu>
+          <a-menu-item key="1">打开</a-menu-item>
+          <a-menu-item key="2">编辑</a-menu-item>
+          <a-menu-item key="3">删除</a-menu-item>
+        </a-menu>
+      </template>
+    </a-dropdown>
+  </div>
+</template>
+
 <script setup lang="ts">
 import { ref } from "vue";
 
@@ -29,25 +53,21 @@ const iconList = ref([
   },
 ]);
 
-const getIconUrl = function (value: string) {
+const getIconUrl = (value: string) => {
   return "https://api.btstu.cn/getfav/api.php?url=" + value;
 };
-</script>
 
-<template>
-  <div class="desktop">
-    <a
-      v-for="item in iconList"
-      :key="item.url"
-      class="desktop-item"
-      :href="item.url"
-      target="__blank"
-    >
-      <img class="desktop-item__icon" :src="item.icon" :alt="item.name" />
-      <p class="desktop-item__name">{{ item.name }}</p>
-    </a>
-  </div>
-</template>
+const gotoUrl = (link: string, self: boolean = false) => {
+  if (!link.startsWith("http://") && !link.startsWith("https://")) {
+    link = "http://" + link;
+  }
+  if (self) {
+    window.location.href = link;
+  } else {
+    window.open(link);
+  }
+};
+</script>
 
 <style lang="less" scoped>
 .desktop {
