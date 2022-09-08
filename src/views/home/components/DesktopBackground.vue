@@ -1,9 +1,6 @@
 <template>
   <a-dropdown :trigger="['contextmenu']">
-    <div
-      class="background"
-      :style="'background-image: url(' + configStore.background + ')'"
-    ></div>
+    <div class="background" :style="'background-image: url(' + configStore.background + ')'"></div>
 
     <template #overlay>
       <a-menu @click="handleMenuClick">
@@ -16,25 +13,25 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { useConfigStore } from "@/store/config";
-import type { MenuProps } from "ant-design-vue";
-import SettingWallpaper from "./setting/SettingWallpaper.vue";
+import { ref } from 'vue'
+import { useConfigStore } from '@/store/config'
+import type { MenuProps } from 'ant-design-vue'
+import SettingWallpaper from './setting/SettingWallpaper.vue'
 
-const modelVisible = ref<boolean>(false);
+const modelVisible = ref<boolean>(false)
 
-const configStore = useConfigStore();
+const configStore = useConfigStore()
 
-const handleMenuClick: MenuProps["onClick"] = (e) => {
+const handleMenuClick: MenuProps['onClick'] = e => {
   switch (e.key) {
-    case "wallpaper":
-      return settingWallpaper();
+    case 'wallpaper':
+      return settingWallpaper()
   }
-};
+}
 
 const settingWallpaper = () => {
-  modelVisible.value = true;
-};
+  modelVisible.value = true
+}
 </script>
 
 <style lang="less" scoped>

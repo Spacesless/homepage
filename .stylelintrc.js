@@ -1,6 +1,7 @@
 module.exports = {
   extends: [
     'stylelint-config-standard',
+    "stylelint-config-prettier",
     'stylelint-config-rational-order'
   ],
   plugins: [
@@ -19,10 +20,12 @@ module.exports = {
   // add your custom config here
   // https://stylelint.io/user-guide/configuration
   rules: {
-    'alpha-value-notation': 'number',
-    'color-function-notation': 'legacy',
     // 类选择器的命名规则
     "selector-class-pattern": ".",
+    // 指定 alpha 值为数字
+    "alpha-value-notation": "number",
+    // 指定颜色格式
+    "color-function-notation": "legacy",
     // 禁止空块
     'block-no-empty': true,
     // 颜色6位长度
@@ -34,7 +37,7 @@ module.exports = {
     "max-line-length": null,
     // 忽略伪类选择器 ::v-deep
     "selector-pseudo-element-no-unknown": [true, {
-      "ignorePseudoElements": ["/./","v-deep", '/deep/', '-webkit-']
+      "ignorePseudoElements": ["/./","v-deep", '-webkit-']
     }],
     // 禁止低优先级的选择器出现在高优先级的选择器之后。
     "no-descending-specificity": null,
@@ -61,6 +64,5 @@ module.exports = {
     ],
     // 禁止空第一行
     "no-empty-first-line": true,
-    "block-opening-brace-space-before": null
   }
 }

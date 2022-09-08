@@ -1,15 +1,15 @@
-import { createApp } from "vue";
-import router from "./router";
-import App from "./App.vue";
-import "./styles/index.less";
+import { createApp } from 'vue'
+import router from './router'
+import App from './App.vue'
+import './styles/index.less'
 
-import pinia from "./store";
+import pinia from './store'
 
-const app = createApp(App);
+const app = createApp(App)
 
 // 路由
-app.use(router);
+app.use(router)
 // 状态管理
-app.use(pinia);
+app.use(pinia)
 
-app.mount("#app");
+app.mount('#app')

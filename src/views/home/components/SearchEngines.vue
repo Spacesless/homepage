@@ -2,64 +2,54 @@
   <div class="search">
     <a-input-group compact>
       <a-select v-model:value="engine" class="search-engine" size="large">
-        <a-select-option v-for="item in engineOptions" :key="item.value">{{
-          item.label
-        }}</a-select-option>
+        <a-select-option v-for="item in engineOptions" :key="item.value">{{ item.label }}</a-select-option>
       </a-select>
-      <a-input
-        v-model:value="keyword"
-        allow-clear
-        class="search-keyword"
-        size="large"
-        @keyup.enter="handleSearch"
-      />
+      <a-input v-model:value="keyword" allow-clear class="search-keyword" size="large" @keyup.enter="handleSearch" />
     </a-input-group>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, watch } from 'vue'
 
 const engineOptions = ref([
   {
-    value: "baidu",
-    label: "百度",
-    url: "https://www.baidu.com/s?wd=",
+    value: 'baidu',
+    label: '百度',
+    url: 'https://www.baidu.com/s?wd='
   },
   {
-    value: "bing",
-    label: "必应",
-    url: "https://cn.bing.com/search?q=",
+    value: 'bing',
+    label: '必应',
+    url: 'https://cn.bing.com/search?q='
   },
   {
-    value: "google",
-    label: "谷歌",
+    value: 'google',
+    label: '谷歌'
   },
   {
-    value: "bilibili",
-    label: "Bilibili",
-    url: "https://search.bilibili.com/all?keyword=",
+    value: 'bilibili',
+    label: 'Bilibili',
+    url: 'https://search.bilibili.com/all?keyword='
   },
   {
-    value: "toutiao",
-    label: "头条",
-    url: "https://so.toutiao.com/search?dvpf=pc&keyword=",
-  },
-]);
+    value: 'toutiao',
+    label: '头条',
+    url: 'https://so.toutiao.com/search?dvpf=pc&keyword='
+  }
+])
 
-const engine = ref<string>("baidu");
-const keyword = ref<string>("");
+const engine = ref<string>('baidu')
+const keyword = ref<string>('')
 
 const searchUrl = computed(() => {
-  const findEngine = engineOptions.value.find(
-    (item) => item.value === engine.value
-  );
-  return findEngine ? findEngine.url + keyword.value : "";
-});
+  const findEngine = engineOptions.value.find(item => item.value === engine.value)
+  return findEngine ? findEngine.url + keyword.value : ''
+})
 
 const handleSearch = () => {
-  searchUrl.value && window.open(searchUrl.value);
-};
+  searchUrl.value && window.open(searchUrl.value)
+}
 </script>
 
 <style lang="less" scoped>
