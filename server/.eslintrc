@@ -1,7 +1,4 @@
 {
   "extends": "eslint-config-egg/typescript",
-  "root": true,
-  "parserOptions": {
-    "project": "./tsconfig.json"
-  }
+  "root": true
 }

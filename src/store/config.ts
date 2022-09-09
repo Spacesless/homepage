@@ -17,6 +17,8 @@ export const useConfigStore = defineStore('config', {
   },
   actions: {
     getConfig() {},
-    updateConfig() {}
+    setBackground(value: string) {
+      this.background = value
+    }
   }
 })

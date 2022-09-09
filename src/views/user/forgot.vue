@@ -1,5 +1,46 @@
-<script lang="ts"></script>
+<template>
+  <div class="forgot">
+    <div v-if="step === 'username'" class="username">
+      <a-input v-model:value="username"></a-input>
+    </div>
 
-<template></template>
+    <div v-else-if="step === 'check'" class="check">
+      <a-input v-model:value="answer"></a-input>
+    </div>
 
-<style lang="less" scoped></style>
+    <a-form
+      v-else-if="step === 'reset'"
+      class="reset"
+      :model="resetForm"
+      :label-col="{ span: 8 }"
+      :wrapper-col="{ span: 16 }"
+      autocomplete="off"
+    >
+      <a-form-item label="密码" name="password" :rules="[{ required: true, message: '请输入密码' }]">
+        <a-input-password v-model:value="resetForm.password" />
+      </a-form-item>
+
+      <a-form-item label="确认密码" name="aginPassword" :rules="[{ required: true, message: '请再次输入密码' }]">
+        <a-input-password v-model:value="resetForm.aginPassword" />
+      </a-form-item>
+    </a-form>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { ref, reactive } from 'vue'
+
+const step = ref<string>('username')
+const username = ref<string>('')
+const answer = ref<string>('')
+
+interface ResetForm {
+  password: string
+  aginPassword: string
+}
+
+const resetForm = reactive<ResetForm>({
+  password: '',
+  aginPassword: ''
+})
+</script>

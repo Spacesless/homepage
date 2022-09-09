@@ -1,10 +1,9 @@
 import * as VueRouter from 'vue-router'
-import IndexPage from '../views/home/IndexPage.vue'
-import AdminLogin from '../views/admin/login/index.vue'
 
 const routes: VueRouter.RouteRecordRaw[] = [
-  { path: '/', component: IndexPage },
-  { path: '/admin/login', component: AdminLogin }
+  { path: '/', component: () => import('@/views/home/IndexPage.vue') },
+  { path: '/register', component: () => import('@/views/user/register.vue') },
+  { path: '/forgot', component: () => import('@/views/home/forgot.vue') }
 ]
 
 // 路由
