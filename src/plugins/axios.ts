@@ -2,7 +2,7 @@ import axios from 'axios'
 
 // 自定义 axios 实例
 const myAxios = axios.create({
-  baseURL: 'http://localhost:7345/api'
+  baseURL: 'http://127.0.0.1:7001/api'
 })
 
 myAxios.defaults.withCredentials = true
@@ -22,7 +22,6 @@ myAxios.interceptors.request.use(
 // 添加响应拦截器
 myAxios.interceptors.response.use(
   function (response) {
-    console.log(response)
     // 对响应数据做点什么
     return response.data
   },

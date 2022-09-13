@@ -1,33 +1,42 @@
 <template>
-  <a-modal v-model:visible="visible" @cancel="handleClose">
+  <a-modal v-model:visible="visible" title="壁纸设置" :centered="true" width="76%" :footer="null" @cancel="handleClose">
     <a-tabs v-model:activeKey="activeKey" type="card">
-      <a-tab-pane v-for="item in albumList" :key="item.key" :tab="item.name"></a-tab-pane>
+      <a-tab-pane v-for="item in albumList.value" :key="item.key" :tab="item.name"></a-tab-pane>
     </a-tabs>
-    <ul>
-      <li v-for="item in pictureList" :key="item.url" @click="setBackground(item.url)">
-        <img :src="item.url" :alt="item.name" />
-        <p>{{ item.name }}}</p>
-      </li>
-    </ul>
-    <p>自定义壁纸</p>
+    <a-row class="wallpaper">
+      <a-col
+        v-for="item in pictureList.value"
+        :key="item.thumb"
+        :sm="12"
+        :md="8"
+        :lg="6"
+        :xl="4"
+        class="wallpaper-item"
+        @click="setBackground(item.url)"
+      >
+        <img :src="item.thumb" class="wallpaper-item__thumb" :alt="item.title" />
+        <p class="wallpaper-item__title">{{ item.title }}</p>
+      </a-col>
+    </a-row>
+    <a-divider orientation="left" orientation-margin="16px">自定义壁纸</a-divider>
     <a-input-group compact>
-      <a-input v-model:value="customUrl" style="width: calc(100% - 200px)" />
+      <a-input v-model:value="customUrl" style="width: calc(100% - 64px)" />
       <a-button type="primary" @click="setBackground(customUrl)">确定</a-button>
     </a-input-group>
   </a-modal>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed, watch } from 'vue'
 import axios from '@/plugins/axios'
-import { useConfigStore } from '@/store/config'
+import { useSettingStore } from '@/store/setting'
 
 const bing = {
   key: 'bing',
   name: '必应'
 }
 
-const configStore = useConfigStore()
+const settingStore = useSettingStore()
 
 const props = defineProps({
   modelVisible: {
@@ -37,18 +46,30 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:modelVisible'])
 
-const visible = ref<boolean>(props.modelVisible)
 const loading = ref<boolean>(false)
 const albumList = reactive<any>([])
 const listLoading = ref<boolean>(false)
 const listQuery = reactive({
   page: 1,
-  pageSize: 10
+  pageSize: 12
 })
 const total = ref(0)
-const pictureList = ref<any>([])
+const pictureList = reactive<any>([])
 const activeKey = ref<string>('bing')
 const customUrl = ref<string>('')
+
+const visible = computed(() => props.modelVisible)
+
+watch(visible, isShow => {
+  if (isShow) {
+    if (!albumList.length) {
+      fetchAblumList()
+    }
+    if (!pictureList.length) {
+      fetchList()
+    }
+  }
+})
 
 const handleClose = () => {
   emit('update:modelVisible', false)
@@ -64,6 +85,14 @@ const fetchAblumList = () => {
     })
     albumList.value = [bing, ...data]
   })
+}
+
+const fetchList = () => {
+  if (activeKey.value === 'bing') {
+    fetchBingList()
+  } else {
+    fetchWallpaperList()
+  }
 }
 
 const fetchBingList = async () => {
@@ -104,6 +133,7 @@ const GetWallpaper = (url: string, params?: object) => {
   return axios({
     url: 'https://api.timelessq.com/' + url,
     method: 'get',
+    withCredentials: false,
     params
   }).catch(() => {
     loading.value = false
@@ -115,6 +145,18 @@ const GetWallpaper = (url: string, params?: object) => {
  * @param url 壁纸图片地址
  */
 const setBackground = (url: string) => {
-  configStore.setBackground(url)
+  settingStore.setBackground(url)
 }
 </script>
+
+<style lang="less" scoped>
+.wallpaper {
+  &-item {
+    cursor: pointer;
+
+    &__thumb {
+      width: 100%;
+    }
+  }
+}
+</style>

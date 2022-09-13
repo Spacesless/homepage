@@ -34,6 +34,7 @@
 
 <script lang="ts" setup>
 import { reactive } from 'vue'
+import { Register } from '@/api/user'
 
 interface FormState {
   username: string
@@ -51,5 +52,9 @@ const formState = reactive<FormState>({
   tips: ''
 })
 
-const handleRegister = () => {}
+const handleRegister = () => {
+  Register(formState)
+    .then(res => {})
+    .catch(() => {})
+}
 </script>

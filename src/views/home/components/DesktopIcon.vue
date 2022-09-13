@@ -15,8 +15,6 @@
       </template>
     </a-dropdown>
   </div>
-
-  <SettingWallpaper v-model="modelVisible" />
 </template>
 
 <script setup lang="ts">

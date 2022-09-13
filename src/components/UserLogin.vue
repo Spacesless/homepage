@@ -8,6 +8,10 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
+import md5 from 'md5'
+import { useUserStore } from '@/store/user'
+
+const userStore = useUserStore()
 
 const props = defineProps({
   modelVisible: {
@@ -21,5 +25,12 @@ const visible = ref<boolean>(props.modelVisible)
 
 const handleClose = () => {
   emit('update:modelVisible', false)
+}
+
+const handleLogin = () => {
+  userStore.login({
+    username: '',
+    password: md5('')
+  })
 }
 </script>

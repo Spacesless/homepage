@@ -25,7 +25,11 @@ export default class UserController extends Controller {
     return this.success();
   }
 
-  public async forgot() {
+  public async checkUsername() {
+    //
+  }
+
+  public async checkAnswer() {
     //
   }
 

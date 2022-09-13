@@ -13,23 +13,31 @@ export default class SettingController extends Controller {
     return this.fail('未找到对应记录');
   }
 
-  public async update() {
+  public async create() {
     const { ctx, service } = this;
 
     const params = ctx.params;
     const userId = ctx.session.userId;
-    const record = await service.setting.findRecord(userId);
 
-    let result;
-    if (record) {
-      result = await service.setting.updateRecord(params, userId);
-    } else {
-      result = await service.setting.createRecord(params);
-    }
+    params.userId = userId;
+    const result = await service.setting.createRecord(params);
 
     if (result.affectedRows === 1) {
       return this.success(result);
     }
-    return this.fail('更新配置失败');
+    return this.fail('云端存储配置失败');
+  }
+
+  public async update() {
+    const { ctx, service } = this;
+
+    const params = ctx.params;
+
+    const result = await service.setting.updateRecord(params);
+
+    if (result.affectedRows === 1) {
+      return this.success(result);
+    }
+    return this.fail('云端存储配置失败');
   }
 }
