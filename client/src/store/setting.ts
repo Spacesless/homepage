@@ -1,8 +1,14 @@
 import { defineStore } from 'pinia'
 
+export interface Icon {
+  name: string
+  url: string
+  developer: string
+}
+
 interface State {
   background: string
-  desktopIcon: []
+  desktopIcon: Array<Icon>
 }
 
 // useStore 可以是 useUser、useCart 之类的任何东西
