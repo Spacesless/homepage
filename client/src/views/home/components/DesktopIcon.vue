@@ -9,7 +9,7 @@
 
         <template #overlay>
           <a-menu>
-            <a-menu-item key="1">打开</a-menu-item>
+            <a-menu-item key="1" @click="gotoUrl(item.url)">打开</a-menu-item>
             <a-menu-item key="2" @click="settingIcon">编辑</a-menu-item>
             <a-menu-item key="3" @click="handleDelete(item)">删除</a-menu-item>
           </a-menu>
@@ -76,8 +76,9 @@ const gotoUrl = (link: string, self: boolean = false) => {
   pointer-events: none;
 
   &-item {
-    width: 90px;
-    padding: 16px 5px 0;
+    width: 100px;
+    margin-top: 16px;
+    padding: 0 8px;
     color: rgba(0, 0, 0, 0.85);
     text-align: center;
     cursor: pointer;
@@ -90,9 +91,14 @@ const gotoUrl = (link: string, self: boolean = false) => {
     }
 
     &__name {
+      display: -webkit-box;
+      height: 44px;
       overflow: hidden;
-      white-space: nowrap;
+      color: #ffffff;
       text-overflow: ellipsis;
+      text-shadow: 0 1px 4px #000000;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
     }
 
     &:hover {

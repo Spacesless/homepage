@@ -1,11 +1,11 @@
 <template>
   <a-modal v-model:visible="visible" title="壁纸设置" :centered="true" width="76%" :footer="null" @cancel="handleClose">
-    <a-tabs v-model:activeKey="activeKey" type="card">
-      <a-tab-pane v-for="item in albumList.value" :key="item.key" :tab="item.name"></a-tab-pane>
+    <a-tabs v-model:activeKey="activeKey" type="card" @change="fetchList">
+      <a-tab-pane v-for="item in albumList" :key="item.key" :tab="item.name"></a-tab-pane>
     </a-tabs>
     <a-row class="wallpaper">
       <a-col
-        v-for="item in pictureList.value"
+        v-for="item in pictureList"
         :key="item.thumb"
         :sm="12"
         :md="8"
@@ -31,7 +31,18 @@ import { ref, reactive, computed, watch } from 'vue'
 import axios from '@/plugins/axios'
 import { useSettingStore } from '@/store/setting'
 
-const bing = {
+interface Album {
+  key: string
+  name: string
+}
+
+interface QueryParam {
+  page: number
+  pageSize: number
+  album?: string
+}
+
+const bing: Album = {
   key: 'bing',
   name: '必应'
 }
@@ -47,14 +58,14 @@ const props = defineProps({
 const emit = defineEmits(['update:modelVisible'])
 
 const loading = ref<boolean>(false)
-const albumList = reactive<any>([])
+const albumList = ref<Array<Album>>([])
 const listLoading = ref<boolean>(false)
-const listQuery = reactive({
+const listQuery = reactive<QueryParam>({
   page: 1,
   pageSize: 12
 })
 const total = ref(0)
-const pictureList = reactive<any>([])
+const pictureList = ref<any>([])
 const activeKey = ref<string>('bing')
 const customUrl = ref<string>('')
 
@@ -62,10 +73,10 @@ const visible = computed(() => props.modelVisible)
 
 watch(visible, isShow => {
   if (isShow) {
-    if (!albumList.length) {
+    if (!albumList.value.length) {
       fetchAblumList()
     }
-    if (!pictureList.length) {
+    if (!pictureList.value.length) {
       fetchList()
     }
   }
@@ -91,6 +102,8 @@ const fetchList = () => {
   if (activeKey.value === 'bing') {
     fetchBingList()
   } else {
+    const findAblum = albumList.value.find(item => item.key === activeKey.value)
+    listQuery.album = findAblum?.name || ''
     fetchWallpaperList()
   }
 }

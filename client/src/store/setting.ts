@@ -3,7 +3,6 @@ import { defineStore } from 'pinia'
 export interface Icon {
   name: string
   url: string
-  developer: string
 }
 
 interface State {

@@ -4,7 +4,7 @@
 
     <template #overlay>
       <a-menu @click="handleMenuClick">
-        <a-menu-item key="icon">添加图标</a-menu-item>
+        <a-menu-item key="icon">图标设置</a-menu-item>
         <a-menu-item key="wallpaper">壁纸设置</a-menu-item>
       </a-menu>
     </template>

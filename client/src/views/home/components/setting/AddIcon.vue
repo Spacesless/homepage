@@ -1,9 +1,15 @@
 <template>
-  <a-modal v-model:visible="visible" title="添加图标" :centered="true" width="76%" :footer="null" @cancel="handleClose">
+  <a-modal v-model:visible="visible" title="图标设置" :centered="true" width="76%" :footer="null" @cancel="handleClose">
     <a-tabs v-model:activeKey="activeKey" type="card">
       <a-tab-pane v-for="item in tabList" :key="item.key" :tab="item.name">
         <ul class="icon-list">
-          <li v-for="child in item.data" :key="child.url" class="icon-item" @click="selectIcon(child)">
+          <li
+            v-for="child in item.data"
+            :key="child.url"
+            class="icon-item"
+            :class="getIconActive(child.url)"
+            @click="selectIcon(child)"
+          >
             <img :src="getIconUrl(child.url)" class="icon-item__picture" :alt="child.name" />
             <p class="icon-item__name">{{ child.name }}</p>
           </li>
@@ -40,6 +46,7 @@ const activeKey = ref<string>(iconList[0].key)
 const tabList = ref(iconList)
 
 const visible = computed(() => props.modelVisible)
+const desktopIconUrls = computed(() => settingStore.desktopIcon.map(item => item.url))
 
 watch(visible, isShow => {
   if (isShow) {
@@ -52,10 +59,17 @@ const handleClose = () => {
 
 const handleCreate = () => {}
 
+const getIconActive = (url: string): string => {
+  const isActive = desktopIconUrls.value.includes(url)
+  return isActive ? 'icon-item--active' : ''
+}
+
 const selectIcon = (icon: Icon) => {
-  const findIcon = settingStore.desktopIcon.find(item => item.url === icon.url)
-  if (!findIcon) {
+  const findIcon = settingStore.desktopIcon.findIndex(item => item.url === icon.url)
+  if (findIcon === -1) {
     settingStore.desktopIcon.push(icon)
+  } else {
+    settingStore.desktopIcon.splice(findIcon, 1)
   }
 }
 
@@ -75,6 +89,8 @@ const getIconUrl = (url: string): string => {
   }
 
   &-item {
+    width: 112px;
+    margin-right: 8px;
     padding: 16px;
     text-align: center;
     cursor: pointer;
@@ -82,6 +98,10 @@ const getIconUrl = (url: string): string => {
     &__picture {
       width: 64px;
       margin-bottom: 8px;
+    }
+
+    &--active {
+      background: rgba(@primary-color, 0.1);
     }
   }
 }

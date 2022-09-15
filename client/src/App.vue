@@ -10,9 +10,3 @@ import zhCN from 'ant-design-vue/es/locale/zh_CN'
 
 const locale = ref(zhCN)
 </script>
-
-<style>
-body {
-  margin: 0;
-}
-</style>
