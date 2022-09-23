@@ -8,6 +8,7 @@ export interface Icon {
 interface State {
   background: string
   desktopIcon: Array<Icon>
+  iconShow: boolean
 }
 
 // useStore 可以是 useUser、useCart 之类的任何东西
@@ -17,7 +18,8 @@ export const useSettingStore = defineStore('setting', {
   state: (): State => {
     return {
       background: '',
-      desktopIcon: []
+      desktopIcon: [],
+      iconShow: true
     }
   },
   actions: {

@@ -1,11 +1,29 @@
 <template>
-  <div class="search">
-    <a-input-group compact>
-      <a-select v-model:value="engine" class="search-engine" size="large">
-        <a-select-option v-for="item in engineOptions" :key="item.value">{{ item.label }}</a-select-option>
-      </a-select>
-      <a-input v-model:value="keyword" allow-clear class="search-keyword" size="large" @keyup.enter="handleSearch" />
-    </a-input-group>
+  <div class="search" :class="{ 'search--active': isFocus }">
+    <a-dropdown :trigger="['contextmenu']">
+      <a-input-group class="search-input" compact>
+        <a-input
+          v-model:value="keyword"
+          allow-clear
+          class="search-keyword"
+          size="large"
+          @keyup.enter="handleSearch"
+          @focus="isFocus = true"
+          @blur="isFocus = false"
+        />
+        <a-select v-model:value="engine" class="search-engine" size="large">
+          <a-select-option v-for="item in engineOptions" :key="item.value">{{ item.label }}</a-select-option>
+        </a-select>
+      </a-input-group>
+
+      <template #overlay>
+        <a-menu>
+          <a-menu-item key="1">设置</a-menu-item>
+          <a-menu-item key="1">移动</a-menu-item>
+          <a-menu-item key="2">删除</a-menu-item>
+        </a-menu>
+      </template>
+    </a-dropdown>
   </div>
 </template>
 
@@ -41,6 +59,7 @@ const engineOptions = ref([
 
 const engine = ref<string>('baidu')
 const keyword = ref<string>('')
+const isFocus = ref<boolean>(false)
 
 const searchUrl = computed(() => {
   const findEngine = engineOptions.value.find(item => item.value === engine.value)
@@ -55,11 +74,27 @@ const handleSearch = () => {
 <style lang="less" scoped>
 .search {
   position: fixed;
-  top: 16px;
-  right: 16px;
-  width: 40%;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  transition: background 0.3s;
+  pointer-events: none;
 
-  @engine-width: 100px;
+  &--active {
+    background: rgba(0, 0, 0, 0.65);
+    pointer-events: auto;
+  }
+
+  &-input {
+    position: absolute;
+    top: 92px;
+    left: 50%;
+    width: 600px;
+    margin-left: -300px;
+    pointer-events: auto;
+  }
+
+  @engine-width: 90px;
 
   &-engine {
     width: @engine-width;
@@ -67,6 +102,20 @@ const handleSearch = () => {
 
   &-keyword {
     width: calc(100% - @engine-width);
+  }
+
+  :deep(.ant-input-group.ant-input-group-compact) {
+    & > *:first-child {
+      padding-left: 16px;
+      border-top-left-radius: 20px;
+      border-bottom-left-radius: 20px;
+    }
+
+    & > *:last-child,
+    & > .ant-select:last-child > .ant-select-selector {
+      border-top-right-radius: 20px;
+      border-bottom-right-radius: 20px;
+    }
   }
 }
 </style>

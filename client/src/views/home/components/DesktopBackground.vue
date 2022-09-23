@@ -4,8 +4,22 @@
 
     <template #overlay>
       <a-menu @click="handleMenuClick">
-        <a-menu-item key="icon">图标设置</a-menu-item>
-        <a-menu-item key="wallpaper">壁纸设置</a-menu-item>
+        <a-menu-item key="refresh">
+          <reload-outlined class="menu-item__icon" />
+          <span>刷新</span>
+        </a-menu-item>
+        <a-menu-item key="icon">
+          <setting-outlined class="menu-item__icon" />
+          <span>图标设置</span>
+        </a-menu-item>
+        <a-menu-item key="toggle-icon">
+          <eye-invisible-outlined class="menu-item__icon" />
+          <span>{{ iconShow ? '隐藏' : '显示' }}图标</span>
+        </a-menu-item>
+        <a-menu-item key="wallpaper">
+          <picture-outlined class="menu-item__icon" />
+          <span>壁纸设置</span>
+        </a-menu-item>
       </a-menu>
     </template>
   </a-dropdown>
@@ -22,15 +36,19 @@ import type { MenuProps } from 'ant-design-vue'
 import SettingWallpaper from './setting/SettingWallpaper.vue'
 import AddIcon from './setting/AddIcon.vue'
 
+const settingStore = useSettingStore()
+const iconShow = settingStore.iconShow
+
 const iconVisible = ref<boolean>(false)
 const wallpaperVisible = ref<boolean>(false)
-
-const settingStore = useSettingStore()
 
 const handleMenuClick: MenuProps['onClick'] = e => {
   switch (e.key) {
     case 'icon':
       return addIcon()
+    case 'toggle-icon':
+      settingStore.iconShow = !settingStore.iconShow
+      return
     case 'wallpaper':
       return settingWallpaper()
   }

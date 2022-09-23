@@ -1,5 +1,5 @@
 <template>
-  <div class="desktop">
+  <div v-if="iconShow" id="desktop" class="desktop">
     <div v-for="item in iconList" :key="item.url" class="desktop-item" @dblclick="gotoUrl(item.url)">
       <a-dropdown :trigger="['contextmenu']">
         <div>
@@ -20,14 +20,28 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { Modal } from 'ant-design-vue'
+import Sortable from 'sortablejs'
 import { useSettingStore, Icon } from '@/store/setting'
 
 const settingStore = useSettingStore()
+const iconShow = settingStore.iconShow
 
 const iconList = ref(settingStore.desktopIcon)
 const modelVisible = ref<boolean>(false)
+
+onMounted(() => {
+  const el = document.getElementById('desktop')
+  if (el) {
+    const sortableInstance = new Sortable(el, {
+      onEnd: ({ oldIndex, newIndex }) => {
+        const targetIcon = iconList.value.splice(oldIndex || -1, 1)[0]
+        settingStore.desktopIcon.splice(newIndex || -1, 0, targetIcon)
+      }
+    })
+  }
+})
 
 /**
  * 获取图标地址
@@ -77,7 +91,8 @@ const gotoUrl = (link: string, self: boolean = false) => {
 
   &-item {
     width: 100px;
-    margin-top: 16px;
+    margin-top: 24px;
+    margin-bottom: 8px;
     padding: 0 8px;
     color: rgba(0, 0, 0, 0.85);
     text-align: center;
@@ -87,18 +102,15 @@ const gotoUrl = (link: string, self: boolean = false) => {
     &__icon {
       width: 48px;
       height: 48px;
-      margin-bottom: 4px;
+      margin-bottom: 8px;
     }
 
     &__name {
-      display: -webkit-box;
-      height: 44px;
       overflow: hidden;
       color: #ffffff;
+      white-space: nowrap;
       text-overflow: ellipsis;
       text-shadow: 0 1px 4px #000000;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2;
     }
 
     &:hover {

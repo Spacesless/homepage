@@ -10,18 +10,22 @@
     "lint": "eslint --fix --ext .js,.ts,.vue src/"
   },
   "dependencies": {
+    "@ant-design/icons-vue": "^6.1.0",
+    "@vueuse/core": "^9.2.0",
     "ant-design-vue": "^3.2.11",
     "axios": "^0.27.2",
     "lodash-es": "^4.17.21",
     "md5": "^2.3.0",
     "pinia": "^2.0.17",
     "pinia-plugin-persistedstate": "^2.1.1",
+    "sortablejs": "^1.15.0",
     "vue": "^3.2.37",
     "vue-router": "4"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.182",
     "@types/md5": "^2.3.2",
+    "@types/sortablejs": "^1.15.0",
     "@typescript-eslint/eslint-plugin": "^5.33.0",
     "@typescript-eslint/parser": "^5.33.0",
     "@vitejs/plugin-vue": "^3.0.0",

@@ -9,7 +9,11 @@ export default defineConfig({
   plugins: [
     vue(),
     Components({
-      resolvers: [AntDesignVueResolver()],
+      resolvers: [
+        AntDesignVueResolver({
+          resolveIcons: true
+        })
+      ],
       dts: true
     })
   ],
