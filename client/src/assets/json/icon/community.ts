@@ -1,3 +1,4 @@
+// 79bd417da03d470287c0c7c2ef8f2c96
 const list = [
   {
     name: '小红书',
@@ -9,11 +10,15 @@ const list = [
   },
   {
     name: '微博',
-    url: 'https://m.weibo.cn'
+    url: 'https://weibo.cn'
   },
   {
     name: '稀土掘金',
     url: 'https://www.juejin.cn'
+  },
+  {
+    name: '简书',
+    url: 'https://www.jianshu.com/'
   },
   {
     name: '百度贴吧',

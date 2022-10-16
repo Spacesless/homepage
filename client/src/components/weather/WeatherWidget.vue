@@ -41,11 +41,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <div id="he-plugin-simple" class="weather"></div>
+  <div class="weather">
+    <div id="he-plugin-simple"></div>
+  </div>
 </template>
 
 <style lang="less" scoped>
 .weather {
-  width: 250px;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 270px;
 }
 </style>

@@ -20,16 +20,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { Modal } from 'ant-design-vue'
 import Sortable from 'sortablejs'
 import { useSettingStore, Icon } from '@/store/setting'
 
 const settingStore = useSettingStore()
-const iconShow = settingStore.iconShow
 
 const iconList = ref(settingStore.desktopIcon)
 const modelVisible = ref<boolean>(false)
+
+const iconShow = computed(() => settingStore.iconShow)
 
 onMounted(() => {
   const el = document.getElementById('desktop')
@@ -47,7 +48,7 @@ onMounted(() => {
  * 获取图标地址
  */
 const getIconUrl = (url: string): string => {
-  const name = url.replace(/http(s)?:|\//g, '').replace(/\./g, '-')
+  const name = url.replace(/http(s)?:|\//g, '').replace(/\./g, '.')
   return `assets/img/icon/${name}.png`
 }
 

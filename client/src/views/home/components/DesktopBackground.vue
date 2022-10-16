@@ -30,17 +30,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useSettingStore } from '@/store/setting'
 import type { MenuProps } from 'ant-design-vue'
 import SettingWallpaper from './setting/SettingWallpaper.vue'
 import AddIcon from './setting/AddIcon.vue'
 
 const settingStore = useSettingStore()
-const iconShow = settingStore.iconShow
 
 const iconVisible = ref<boolean>(false)
 const wallpaperVisible = ref<boolean>(false)
+
+const iconShow = computed(() => settingStore.iconShow)
 
 const handleMenuClick: MenuProps['onClick'] = e => {
   switch (e.key) {

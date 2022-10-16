@@ -9,6 +9,7 @@ interface State {
   background: string
   desktopIcon: Array<Icon>
   iconShow: boolean
+  searchEngine: string
 }
 
 // useStore 可以是 useUser、useCart 之类的任何东西
@@ -19,7 +20,8 @@ export const useSettingStore = defineStore('setting', {
     return {
       background: '',
       desktopIcon: [],
-      iconShow: true
+      iconShow: true,
+      searchEngine: 'baidu'
     }
   },
   actions: {

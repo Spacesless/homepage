@@ -1,7 +1,12 @@
+// 33ef450cbac34770a477cfa78db4cf8c
 const list = [
   {
     name: '哔哩哔哩',
     url: 'https://www.bilibili.com'
+  },
+  {
+    name: '腾讯视频',
+    url: 'https://v.qq.com'
   },
   {
     name: '爱奇艺',
@@ -9,19 +14,19 @@ const list = [
   },
   {
     name: '酷狗音乐',
-    url: 'https://m3ws.kugou.com'
+    url: 'https://www.kugou.com'
   },
   {
     name: '优酷视频',
-    url: 'https://acz.youku.com'
+    url: 'https://www.youku.com'
   },
   {
     name: 'QQ音乐',
-    url: 'https://privacy.qq.com'
+    url: 'https://y.qq.com/'
   },
   {
     name: '搜狐视频',
-    url: 'https://m.tv.sohu.com'
+    url: 'https://tv.sohu.com/'
   },
   {
     name: '网易云音乐',
@@ -29,7 +34,7 @@ const list = [
   },
   {
     name: '虎牙直播',
-    url: 'https://app-agreements.huya.com'
+    url: 'https://www.huya.com/'
   },
   {
     name: '斗鱼',
@@ -37,11 +42,7 @@ const list = [
   },
   {
     name: '酷我音乐',
-    url: 'https://h5app.kuwo.cn'
-  },
-  {
-    name: '央视频',
-    url: 'https://m.yangshipin.cn'
+    url: 'http://www.kuwo.cn/'
   }
 ]
 

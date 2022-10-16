@@ -18,9 +18,9 @@
     </a-tabs>
     <a-divider orientation="left" orientation-margin="16px">自定义图标</a-divider>
     <a-input-group compact>
-      <a-input v-model:value="name" style="width: 30%" />
-      <a-input v-model:value="website" style="width: calc(70% - 64px)" />
-      <a-button type="primary" @click="handleCreate">添加</a-button>
+      <a-input v-model:value="name" style="width: 30%" placeholder="请输入网站名称" />
+      <a-input v-model:value="website" style="width: calc(70% - 100px)" placeholder="请输入网址" />
+      <a-button type="primary" style="width: 100px" @click="handleCreate">添加</a-button>
     </a-input-group>
   </a-modal>
 </template>
@@ -77,7 +77,7 @@ const selectIcon = (icon: Icon) => {
  * 获取图标地址
  */
 const getIconUrl = (url: string): string => {
-  const name = url.replace(/http(s)?:|\//g, '').replace(/\./g, '-')
+  const name = url.replace(/http(s)?:|\//g, '').replace(/\./g, '.')
   return `assets/img/icon/${name}.png`
 }
 </script>

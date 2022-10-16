@@ -20,7 +20,7 @@
     </a-row>
     <a-divider orientation="left" orientation-margin="16px">自定义壁纸</a-divider>
     <a-input-group compact>
-      <a-input v-model:value="customUrl" style="width: calc(100% - 64px)" />
+      <a-input v-model:value="customUrl" style="width: calc(100% - 64px)" placeholder="请输入图片地址" />
       <a-button type="primary" @click="setBackground(customUrl)">确定</a-button>
     </a-input-group>
   </a-modal>
@@ -62,7 +62,7 @@ const albumList = ref<Array<Album>>([])
 const listLoading = ref<boolean>(false)
 const listQuery = reactive<QueryParam>({
   page: 1,
-  pageSize: 12
+  pageSize: 18
 })
 const total = ref(0)
 const pictureList = ref<any>([])
@@ -169,6 +169,8 @@ const setBackground = (url: string) => {
 
     &__thumb {
       width: 100%;
+      height: 130px;
+      object-fit: cover;
     }
   }
 }

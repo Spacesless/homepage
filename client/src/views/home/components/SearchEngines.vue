@@ -11,7 +11,7 @@
           @focus="isFocus = true"
           @blur="isFocus = false"
         />
-        <a-select v-model:value="engine" class="search-engine" size="large">
+        <a-select v-model:value="engine" class="search-engine" size="large" @change="changeEngine">
           <a-select-option v-for="item in engineOptions" :key="item.value">{{ item.label }}</a-select-option>
         </a-select>
       </a-input-group>
@@ -29,6 +29,9 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
+import { useSettingStore } from '@/store/setting'
+
+const settingStore = useSettingStore()
 
 const engineOptions = ref([
   {
@@ -57,7 +60,7 @@ const engineOptions = ref([
   }
 ])
 
-const engine = ref<string>('baidu')
+const engine = ref<string>(settingStore.searchEngine)
 const keyword = ref<string>('')
 const isFocus = ref<boolean>(false)
 
@@ -68,6 +71,10 @@ const searchUrl = computed(() => {
 
 const handleSearch = () => {
   searchUrl.value && window.open(searchUrl.value)
+}
+
+const changeEngine = (val: string) => {
+  settingStore.searchEngine = val
 }
 </script>
 

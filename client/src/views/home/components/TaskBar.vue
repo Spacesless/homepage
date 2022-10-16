@@ -9,5 +9,5 @@
 </template>
 
 <script lang="ts" setup>
-import UserLogin from '@/components/UserLogin'
+import UserLogin from '@/components/UserLogin.vue'
 </script>
