@@ -64,6 +64,32 @@ const getFallback = (name: string): string => {
   const canvasEl = document.createElement('canvas')
   const ctx = canvasEl.getContext('2d')
 
+  canvasEl.width = 50
+  canvasEl.height = 50
+
+  const r = 10
+  const x = 0
+  const y = 0
+  const w = 50
+  const h = 50
+
+  if (ctx) {
+    ctx.beginPath()
+    ctx.fillStyle = 'white'
+    ctx.moveTo(x + r, y)
+    ctx.arcTo(x + w, y, x + w, y + h, r)
+    ctx.arcTo(x + w, y + h, x, y + h, r)
+    ctx.arcTo(x, y + h, x, y, r)
+    ctx.arcTo(x, y, x + w, y, r)
+    ctx.fill()
+    ctx.closePath()
+
+    ctx.font = '28px normal Microsoft yahei'
+    ctx.fillStyle = '#18D0F1'
+    const str = name.substring(0, 1)
+    ctx.fillText(str, 11, 35)
+  }
+
   return canvasEl.toDataURL()
 }
 
