@@ -18,6 +18,7 @@
         <p class="wallpaper-item__title">{{ item.title }}</p>
       </a-col>
     </a-row>
+    <a-pagination v-model:current="listQuery.page" :total="total" @change="onPageChange" />
     <a-divider orientation="left" orientation-margin="16px">自定义壁纸</a-divider>
     <a-input-group compact>
       <a-input v-model:value="customUrl" style="width: calc(100% - 64px)" placeholder="请输入图片地址" />
@@ -84,6 +85,13 @@ watch(visible, isShow => {
 
 const handleClose = () => {
   emit('update:modelVisible', false)
+}
+
+const onPageChange = (page: number, pageSize: number) => {
+  listQuery.page = page
+  listQuery.pageSize = pageSize
+
+  fetchList()
 }
 
 const fetchAblumList = () => {

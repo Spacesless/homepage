@@ -1,5 +1,7 @@
 <template>
   <div class="register">
+    <BoxAnimation />
+
     <a-form
       :model="formState"
       :label-col="{ span: 8 }"
@@ -35,6 +37,7 @@
 <script lang="ts" setup>
 import { reactive } from 'vue'
 import { Register } from '@/api/user'
+import BoxAnimation from './components/BoxAnimation.vue'
 
 interface FormState {
   username: string

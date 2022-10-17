@@ -3,7 +3,15 @@
     <div v-for="item in iconList" :key="item.url" class="desktop-item" @dblclick="gotoUrl(item.url)">
       <a-dropdown :trigger="['contextmenu']">
         <div>
-          <img class="desktop-item__icon" :src="getIconUrl(item.url)" :alt="item.name" />
+          <a-image
+            class="desktop-item__icon"
+            :width="50"
+            :height="50"
+            :src="getIconUrl(item.url)"
+            :fallback="getFallback(item.name)"
+            :preview="false"
+            :alt="item.name"
+          />
           <p class="desktop-item__name">{{ item.name }}</p>
         </div>
 
@@ -52,6 +60,13 @@ const getIconUrl = (url: string): string => {
   return `assets/img/icon/${name}.png`
 }
 
+const getFallback = (name: string): string => {
+  const canvasEl = document.createElement('canvas')
+  const ctx = canvasEl.getContext('2d')
+
+  return canvasEl.toDataURL()
+}
+
 const settingIcon = () => {
   modelVisible.value = true
 }
@@ -83,30 +98,27 @@ const gotoUrl = (link: string, self: boolean = false) => {
 <style lang="less" scoped>
 .desktop {
   position: fixed;
+  top: 0;
+  bottom: 0;
   z-index: 2;
   display: flex;
-  flex-direction: column;
+  flex-flow: column wrap;
+  align-content: flex-start;
   width: 100%;
-  height: 100%;
   pointer-events: none;
 
   &-item {
-    width: 100px;
-    margin-top: 24px;
-    margin-bottom: 8px;
-    padding: 0 8px;
+    width: 92px;
+    margin: 8px;
+    padding: 16px 0 8px;
     color: rgba(0, 0, 0, 0.85);
     text-align: center;
+    border-radius: 4px;
     cursor: pointer;
     pointer-events: auto;
 
-    &__icon {
-      width: 48px;
-      height: 48px;
-      margin-bottom: 8px;
-    }
-
     &__name {
+      padding-top: 8px;
       overflow: hidden;
       color: #ffffff;
       white-space: nowrap;
@@ -115,7 +127,7 @@ const gotoUrl = (link: string, self: boolean = false) => {
     }
 
     &:hover {
-      color: @primary-color;
+      background-color: rgba(#ffffff, 0.2);
     }
   }
 }

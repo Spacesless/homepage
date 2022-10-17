@@ -1,4 +1,5 @@
 <template>
+  <BoxAnimation />
   <div class="forgot">
     <div v-if="step === 'username'" class="username">
       <a-input v-model:value="username"></a-input>
@@ -30,6 +31,7 @@
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
 import { CheckUsername, CheckAnswer, ResetPassword } from '@/api/user'
+import BoxAnimation from './components/BoxAnimation.vue'
 
 const step = ref<string>('username')
 const username = ref<string>('')

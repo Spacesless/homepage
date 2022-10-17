@@ -19,8 +19,7 @@
       <template #overlay>
         <a-menu>
           <a-menu-item key="1">设置</a-menu-item>
-          <a-menu-item key="1">移动</a-menu-item>
-          <a-menu-item key="2">删除</a-menu-item>
+          <a-menu-item key="2">关闭</a-menu-item>
         </a-menu>
       </template>
     </a-dropdown>
@@ -94,10 +93,9 @@ const changeEngine = (val: string) => {
 
   &-input {
     position: absolute;
-    top: 92px;
-    left: 50%;
-    width: 600px;
-    margin-left: -300px;
+    top: 15%;
+    left: 32%;
+    width: 36%;
     pointer-events: auto;
   }
 
@@ -109,20 +107,6 @@ const changeEngine = (val: string) => {
 
   &-keyword {
     width: calc(100% - @engine-width);
-  }
-
-  :deep(.ant-input-group.ant-input-group-compact) {
-    & > *:first-child {
-      padding-left: 16px;
-      border-top-left-radius: 20px;
-      border-bottom-left-radius: 20px;
-    }
-
-    & > *:last-child,
-    & > .ant-select:last-child > .ant-select-selector {
-      border-top-right-radius: 20px;
-      border-bottom-right-radius: 20px;
-    }
   }
 }
 </style>

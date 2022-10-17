@@ -57,7 +57,12 @@ const handleClose = () => {
   emit('update:modelVisible', false)
 }
 
-const handleCreate = () => {}
+const handleCreate = () => {
+  settingStore.desktopIcon.push({
+    name: name.value,
+    url: website.value
+  })
+}
 
 const getIconActive = (url: string): string => {
   const isActive = desktopIconUrls.value.includes(url)

@@ -20,6 +20,10 @@
           <picture-outlined class="menu-item__icon" />
           <span>壁纸设置</span>
         </a-menu-item>
+        <a-menu-item key="widget">
+          <appstore-outlined class="menu-item__icon" />
+          <span>桌面小部件</span>
+        </a-menu-item>
       </a-menu>
     </template>
   </a-dropdown>

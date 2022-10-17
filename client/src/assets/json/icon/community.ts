@@ -10,7 +10,7 @@ const list = [
   },
   {
     name: '微博',
-    url: 'https://weibo.cn'
+    url: 'https://weibo.com'
   },
   {
     name: '稀土掘金',
