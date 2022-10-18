@@ -49,7 +49,7 @@ onMounted(() => {
 <style lang="less" scoped>
 .weather {
   position: relative;
-  z-index: 5;
+  z-index: 1;
   width: 100%;
 }
 </style>

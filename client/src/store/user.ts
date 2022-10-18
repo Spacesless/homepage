@@ -23,7 +23,7 @@ export const useUserStore = defineStore('user', {
     },
 
     logout() {
-      UserLogout()
+      return UserLogout()
         .then(res => {})
         .catch(() => {})
     }

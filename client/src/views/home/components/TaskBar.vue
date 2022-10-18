@@ -2,10 +2,13 @@
   <div class="taskBar">
     <div class="taskBar-user">
       <a-dropdown :disabled="!userStore.userId">
-        <UserOutlined @click="handleLogin" />
+        <div class="taskBar-user-dropdown" @click="handleLogin">
+          <UserOutlined />
+          <span class="taskBar-user-dropdown__text">{{ userStore.username || '登录' }}</span>
+        </div>
         <template #overlay>
           <a-menu>
-            <a-menu-item>{{ userStore.username }}</a-menu-item>
+            <a-menu-item>同步配置</a-menu-item>
             <a-menu-divider />
             <a-menu-item @click="handleLogout">退出</a-menu-item>
           </a-menu>
@@ -34,7 +37,9 @@ const handleLogin = () => {
   loginVisible.value = true
 }
 
-const handleLogout = () => {}
+const handleLogout = () => {
+  userStore.logout()
+}
 </script>
 
 <style lang="less" scoped>
@@ -54,13 +59,21 @@ const handleLogout = () => {}
   &-user {
     position: absolute;
     right: 10px;
+    bottom: 6px;
     color: #ffffff;
-    font-size: 16px;
-    line-height: @task-height;
-    cursor: pointer;
+
+    &-dropdown {
+      cursor: pointer;
+
+      &__text {
+        margin-left: 4px;
+        font-size: 12px;
+        vertical-align: text-bottom;
+      }
+    }
 
     .anticon {
-      vertical-align: middle;
+      font-size: 16px;
     }
   }
 }

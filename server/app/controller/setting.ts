@@ -10,6 +10,7 @@ export default class SettingController extends Controller {
     if (record) {
       return this.success(record);
     }
+
     return this.fail('未找到对应记录');
   }
 
@@ -25,6 +26,7 @@ export default class SettingController extends Controller {
     if (result.affectedRows === 1) {
       return this.success(result);
     }
+
     return this.fail('云端存储配置失败');
   }
 
@@ -33,11 +35,13 @@ export default class SettingController extends Controller {
 
     const params = ctx.params;
 
-    const result = await service.setting.updateRecord(params);
+    const userId = ctx.session.userId;
+    const result = await service.setting.updateRecord(params, userId);
 
     if (result.affectedRows === 1) {
       return this.success(result);
     }
+
     return this.fail('云端存储配置失败');
   }
 }

@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, nextTick } from 'vue'
 import { useSettingStore } from '@/store/setting'
 import type { MenuProps } from 'ant-design-vue'
 import SettingWallpaper from './setting/SettingWallpaper.vue'
@@ -49,6 +49,12 @@ const iconShow = computed(() => settingStore.iconShow)
 
 const handleMenuClick: MenuProps['onClick'] = e => {
   switch (e.key) {
+    case 'refresh':
+      settingStore.iconShow = false
+      nextTick(() => {
+        settingStore.iconShow = true
+      })
+      break
     case 'icon':
       return addIcon()
     case 'toggle-icon':

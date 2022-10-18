@@ -17,18 +17,36 @@
       </a-tab-pane>
     </a-tabs>
     <a-divider orientation="left" orientation-margin="16px">自定义图标</a-divider>
-    <a-input-group compact>
-      <a-input v-model:value="name" style="width: 30%" placeholder="请输入网站名称" />
-      <a-input v-model:value="website" style="width: calc(70% - 100px)" placeholder="请输入网址" />
-      <a-button type="primary" style="width: 100px" @click="handleCreate">添加</a-button>
-    </a-input-group>
+    <a-form :model="formState" layout="inline" @finish="handleCreate">
+      <a-input-group compact>
+        <a-form-item name="name" style="width: 30%" :rules="[{ required: true, message: '请输入网站名称' }]">
+          <a-input v-model:value="formState.name" placeholder="请输入网站名称" />
+        </a-form-item>
+        <a-form-item
+          name="url"
+          style="width: calc(70% - 100px)"
+          :rules="[
+            { required: true, message: '请输入网址' },
+            { type: 'url', message: '请输入正确的网址' }
+          ]"
+        >
+          <a-input v-model:value="formState.url" placeholder="请输入网址" />
+        </a-form-item>
+        <a-button type="primary" style="width: 100px" html-type="submit">添加</a-button>
+      </a-input-group>
+    </a-form>
   </a-modal>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, reactive, computed, watch } from 'vue'
 import { useSettingStore, Icon } from '@/store/setting'
 import iconList from '@/assets/json/icon'
+
+interface FormState {
+  name: string
+  url: string
+}
 
 const settingStore = useSettingStore()
 
@@ -40,10 +58,12 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:modelVisible'])
 
-const name = ref<string>('')
-const website = ref<string>('')
 const activeKey = ref<string>(iconList[0].key)
 const tabList = ref(iconList)
+const formState = reactive<FormState>({
+  name: '',
+  url: ''
+})
 
 const visible = computed(() => props.modelVisible)
 const desktopIconUrls = computed(() => settingStore.desktopIcon.map(item => item.url))
@@ -59,8 +79,8 @@ const handleClose = () => {
 
 const handleCreate = () => {
   settingStore.desktopIcon.push({
-    name: name.value,
-    url: website.value
+    name: formState.name,
+    url: formState.url
   })
 }
 
@@ -91,11 +111,12 @@ const getIconUrl = (url: string): string => {
 .icon {
   &-list {
     display: flex;
+    flex-wrap: wrap;
   }
 
   &-item {
     width: 112px;
-    margin-right: 8px;
+    margin-right: 16px;
     padding: 16px;
     text-align: center;
     cursor: pointer;

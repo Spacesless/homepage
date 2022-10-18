@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed } from 'vue'
 import { useSettingStore } from '@/store/setting'
 
 const settingStore = useSettingStore()
@@ -35,26 +35,26 @@ const settingStore = useSettingStore()
 const engineOptions = ref([
   {
     value: 'baidu',
-    label: '百度',
+    label: '百度一下',
     url: 'https://www.baidu.com/s?wd='
   },
   {
     value: 'bing',
-    label: '必应',
+    label: '必应搜索',
     url: 'https://cn.bing.com/search?q='
   },
   {
     value: 'google',
-    label: '谷歌'
+    label: '谷歌搜索'
   },
   {
     value: 'bilibili',
-    label: 'Bilibili',
+    label: '哔哩哔哩',
     url: 'https://search.bilibili.com/all?keyword='
   },
   {
     value: 'toutiao',
-    label: '头条',
+    label: '头条搜索',
     url: 'https://so.toutiao.com/search?dvpf=pc&keyword='
   }
 ])
@@ -99,7 +99,7 @@ const changeEngine = (val: string) => {
     pointer-events: auto;
   }
 
-  @engine-width: 90px;
+  @engine-width: 108px;
 
   &-engine {
     width: @engine-width;

@@ -34,6 +34,7 @@
 <script setup lang="ts">
 import { reactive, computed } from 'vue'
 import md5 from 'md5'
+import { message } from 'ant-design-vue'
 import { useUserStore } from '@/store/user'
 
 interface FormState {
@@ -67,10 +68,18 @@ const onFinish = (values: any) => {
 }
 
 const handleLogin = () => {
-  userStore.login({
-    username: '',
-    password: md5('')
-  })
+  const { username, password } = formState
+  userStore
+    .login({
+      username: username.trim(),
+      password: md5(password)
+    })
+    .then(() => {
+      message.success('登录成功')
+    })
+    .catch(() => {
+      message.success('登录失败')
+    })
 }
 </script>
 

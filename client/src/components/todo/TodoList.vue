@@ -1,31 +1,43 @@
 <template>
   <div class="todo">
-    <a-input v-model.value="newTodo" placeholder="What needs to be done?" allow-clear @keyup.enter="addTodo"></a-input>
+    <a-input v-model:value="newTodo" placeholder="What needs to be done?" allow-clear @press-enter="addTodo"></a-input>
 
-    <ul class="todo-list">
-      <li v-for="(item, index) in filterList" :key="index" class="todo-list-item">
-        <a-checkbox v-model.value="item.completed"></a-checkbox>
-        <a-input v-if="item.isEdit" v-model.value="item.title" allow-clear @blur="item.isEdit = false"></a-input>
-        <span v-else @dbclick="editTodo(item)">{{ item.title }}</span>
-        <close-outlined @click="deleteTodo(index)" />
-      </li>
-    </ul>
+    <template v-if="todos.length">
+      <ul class="todo-list">
+        <li v-for="(item, index) in filterList" :key="index" class="todo-list-item">
+          <a-checkbox v-model:checked="item.completed"></a-checkbox>
+          <div class="todo-list-item-content">
+            <a-input
+              v-if="item.isEdit"
+              v-model:value="item.title"
+              size="small"
+              @press-enter="cancelEditTodo(item)"
+              @blur="cancelEditTodo(item)"
+            ></a-input>
+            <p v-else @dblclick="editTodo(item)">{{ item.title }}</p>
+          </div>
+          <close-outlined class="todo-list-item__delete" @click="deleteTodo(index)" />
+        </li>
+      </ul>
 
-    <div v-if="todos.length" class="todo-tab">
-      <span
-        v-for="item in tabList"
-        :key="item.value"
-        class="todo-tab__item"
-        :class="{ 'todo-tab__item--active': item.value === activeTab }"
-        @click="changeTab(item.value)"
-        >{{ item.label }}</span
-      >
-    </div>
+      <div class="todo-tab">
+        <span
+          v-for="item in tabList"
+          :key="item.value"
+          class="todo-tab__item"
+          :class="{ 'todo-tab__item--active': item.value === activeTab }"
+          @click="changeTab(item.value)"
+          >{{ item.label }}</span
+        >
+      </div>
+    </template>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, watch } from 'vue'
+import { debounce } from 'lodash'
+import { getLocalStorage, setLocalStorage } from '@/utils'
 
 interface TodoItem {
   title: string
@@ -33,7 +45,8 @@ interface TodoItem {
   isEdit: boolean
 }
 
-const todos = reactive<TodoItem>([])
+const storeTodo = getLocalStorage('todo')
+const todos = reactive<Array<TodoItem>>(storeTodo || [])
 const tabList = reactive([
   { value: 'all', label: '全部' },
   { value: 'active', label: '进行中' },
@@ -52,20 +65,33 @@ const filterList = computed(() => {
   return [...todos]
 })
 
+const updateStore = debounce(data => {
+  setLocalStorage('todo', data)
+}, 200)
+watch(todos, data => {
+  updateStore(data)
+})
+
 const addTodo = () => {
-  newTodo.value = ''
-  todos.unshift({
+  todos.push({
     title: newTodo.value,
     isEdit: false,
     completed: false
   })
+  newTodo.value = ''
 }
 
 const deleteTodo = (index: number) => {
   todos.splice(index, 1)
 }
 
-const editTodo = () => {}
+const editTodo = (item: TodoItem) => {
+  item.isEdit = true
+}
+
+const cancelEditTodo = (item: TodoItem) => {
+  item.isEdit = false
+}
 
 const changeTab = (key: string) => {
   activeTab.value = key
@@ -74,8 +100,47 @@ const changeTab = (key: string) => {
 
 <style lang="less" scoped>
 .todo {
+  padding: 12px;
+  background-color: rgba(#ffffff, 0.5);
+  border-radius: 4px;
+  box-shadow: 0 6px 16px 8px rgba(0, 0, 0, 0.16), 0 9px 28px 0 rgba(0, 0, 0, 0.05), 0 12px 48px 16px rgba(0, 0, 0, 0.03);
+  backdrop-filter: blur(5px);
+
+  &-list {
+    margin-top: 8px;
+
+    &-item {
+      display: flex;
+      align-items: center;
+      line-height: 24px;
+
+      &-content {
+        flex: 1;
+        padding: 0 8px;
+      }
+    }
+  }
+
   &-tab {
+    margin-top: 8px;
     text-align: center;
+
+    &__item {
+      display: inline-block;
+      margin: 0 6px;
+      padding: 0 10px;
+      color: rgba(black, 0.65);
+      font-size: 12px;
+      border: 1px solid transparent;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: border-color 0.3s;
+
+      &--active,
+      &:hover {
+        border-color: @primary-color;
+      }
+    }
   }
 }
 </style>

@@ -8,10 +8,11 @@ class BaseController extends Controller {
     };
   }
 
-  fail(msg: string) {
+  fail(msg: string, data: any = null) {
     this.ctx.body = {
       success: false,
-      data: msg,
+      msg,
+      data,
     };
   }
 }
