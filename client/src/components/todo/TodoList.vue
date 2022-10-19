@@ -1,43 +1,54 @@
 <template>
-  <div class="todo">
-    <a-input v-model:value="newTodo" placeholder="What needs to be done?" allow-clear @press-enter="addTodo"></a-input>
+  <AppWidget :close-key="WidgetShow.todo">
+    <div class="todo">
+      <a-input
+        v-model:value="newTodo"
+        placeholder="What needs to be done?"
+        allow-clear
+        @press-enter="addTodo"
+      ></a-input>
 
-    <template v-if="todos.length">
-      <ul class="todo-list">
-        <li v-for="(item, index) in filterList" :key="index" class="todo-list-item">
-          <a-checkbox v-model:checked="item.completed"></a-checkbox>
-          <div class="todo-list-item-content">
-            <a-input
-              v-if="item.isEdit"
-              v-model:value="item.title"
-              size="small"
-              @press-enter="cancelEditTodo(item)"
-              @blur="cancelEditTodo(item)"
-            ></a-input>
-            <p v-else @dblclick="editTodo(item)">{{ item.title }}</p>
-          </div>
-          <close-outlined class="todo-list-item__delete" @click="deleteTodo(index)" />
-        </li>
-      </ul>
+      <template v-if="todos.length">
+        <ul class="todo-list">
+          <li v-for="(item, index) in filterList" :key="index" class="todo-list-item">
+            <a-checkbox v-model:checked="item.completed"></a-checkbox>
+            <div class="todo-list-item-content">
+              <a-input
+                v-if="item.isEdit"
+                v-model:value="item.title"
+                size="small"
+                @press-enter="cancelEditTodo(item)"
+                @blur="cancelEditTodo(item)"
+              ></a-input>
+              <p v-else :class="{ 'todo-list-item__text--completed': item.completed }" @dblclick="editTodo(item)">
+                {{ item.title }}
+              </p>
+            </div>
+            <close-outlined class="todo-list-item__delete" @click="deleteTodo(index)" />
+          </li>
+        </ul>
 
-      <div class="todo-tab">
-        <span
-          v-for="item in tabList"
-          :key="item.value"
-          class="todo-tab__item"
-          :class="{ 'todo-tab__item--active': item.value === activeTab }"
-          @click="changeTab(item.value)"
-          >{{ item.label }}</span
-        >
-      </div>
-    </template>
-  </div>
+        <div class="todo-tab">
+          <span
+            v-for="item in tabList"
+            :key="item.value"
+            class="todo-tab__item"
+            :class="{ 'todo-tab__item--active': item.value === activeTab }"
+            @click="changeTab(item.value)"
+            >{{ item.label }}</span
+          >
+        </div>
+      </template>
+    </div>
+  </AppWidget>
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive, computed, watch } from 'vue'
 import { debounce } from 'lodash'
 import { getLocalStorage, setLocalStorage } from '@/utils'
+import AppWidget from '@/components/AppWidget.vue'
+import { WidgetShow } from '@/types/enums'
 
 interface TodoItem {
   title: string
@@ -117,6 +128,22 @@ const changeTab = (key: string) => {
       &-content {
         flex: 1;
         padding: 0 8px;
+      }
+
+      &__text {
+        &--completed {
+          color: rgba(#000000, 0.65);
+          text-decoration: line-through;
+        }
+      }
+
+      &__delete {
+        opacity: 0;
+        transition: all 0.3s;
+      }
+
+      &:hover &__delete {
+        opacity: 1;
       }
     }
   }

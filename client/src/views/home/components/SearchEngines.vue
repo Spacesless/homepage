@@ -1,6 +1,6 @@
 <template>
   <div class="search" :class="{ 'search--active': isFocus }">
-    <a-dropdown :trigger="['contextmenu']">
+    <AppWidget :close-key="WidgetShow.search" :is-show-config="true">
       <a-input-group class="search-input" compact>
         <a-input
           v-model:value="keyword"
@@ -15,20 +15,15 @@
           <a-select-option v-for="item in engineOptions" :key="item.value">{{ item.label }}</a-select-option>
         </a-select>
       </a-input-group>
-
-      <template #overlay>
-        <a-menu>
-          <a-menu-item key="1">设置</a-menu-item>
-          <a-menu-item key="2">关闭</a-menu-item>
-        </a-menu>
-      </template>
-    </a-dropdown>
+    </AppWidget>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useSettingStore } from '@/store/setting'
+import AppWidget from '@/components/AppWidget.vue'
+import { WidgetShow } from '@/types/enums'
 
 const settingStore = useSettingStore()
 
@@ -45,7 +40,8 @@ const engineOptions = ref([
   },
   {
     value: 'google',
-    label: '谷歌搜索'
+    label: '谷歌搜索',
+    url: 'https://www.google.com/search?q='
   },
   {
     value: 'bilibili',

@@ -1,5 +1,5 @@
 <template>
-  <a-modal v-model:visible="visible" @cancel="handleClose">
+  <a-modal v-model:visible="visible" title="搜索引擎" :centered="true" @cancel="handleClose">
     <p>Some contents...</p>
     <p>Some contents...</p>
     <p>Some contents...</p>
@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { computed } from 'vue'
 
 const props = defineProps({
   modelVisible: {
@@ -17,7 +17,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:modelVisible'])
 
-const visible = ref<boolean>(props.modelVisible)
+const visible = computed(() => props.modelVisible)
 
 const handleClose = () => {
   emit('update:modelVisible', false)

@@ -29,8 +29,8 @@ export const useSettingStore = defineStore('setting', {
       searchEngine: 'baidu',
       searchShow: true,
       engineList: [],
-      weatherShow: true,
-      todoShow: true
+      weatherShow: false,
+      todoShow: false
     }
   },
   actions: {

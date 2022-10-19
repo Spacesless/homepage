@@ -1,5 +1,15 @@
+<template>
+  <div class="weather">
+    <AppWidget :close-key="WidgetShow.weather">
+      <div id="he-plugin-simple"></div>
+    </AppWidget>
+  </div>
+</template>
+
 <script setup lang="ts">
 import { onMounted } from 'vue'
+import AppWidget from '@/components/AppWidget.vue'
+import { WidgetShow } from '@/types/enums'
 
 window.WIDGET = {
   CONFIG: {
@@ -40,12 +50,6 @@ onMounted(() => {
   loadJs()
 })
 </script>
-
-<template>
-  <div class="weather">
-    <div id="he-plugin-simple"></div>
-  </div>
-</template>
 
 <style lang="less" scoped>
 .weather {
