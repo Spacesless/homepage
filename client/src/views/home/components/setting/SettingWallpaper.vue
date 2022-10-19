@@ -1,6 +1,6 @@
 <template>
-  <a-modal v-model:visible="visible" title="壁纸设置" :centered="true" width="76%" :footer="null" @cancel="handleClose">
-    <a-tabs v-model:activeKey="activeKey" type="card" @change="fetchList">
+  <a-modal v-model:visible="visible" title="壁纸设置" :centered="true" width="75%" :footer="null" @cancel="handleClose">
+    <a-tabs v-model:activeKey="activeKey" type="card" @change="onTabChange">
       <a-tab-pane v-for="item in albumList" :key="item.key" :tab="item.name"></a-tab-pane>
     </a-tabs>
     <a-row class="wallpaper">
@@ -15,11 +15,20 @@
         @click="setBackground(item.url)"
       >
         <img :src="item.thumb" class="wallpaper-item__thumb" :alt="item.title" />
-        <p class="wallpaper-item__title">{{ item.title }}</p>
+        <p v-if="item.title" class="wallpaper-item__title">{{ item.title }}</p>
+        <check-outlined v-if="item.url === settingStore.background" class="wallpaper-item__checked" />
       </a-col>
     </a-row>
 
-    <a-pagination v-model:current="listQuery.page" v-model:pageSize="listQuery.pageSize" :total="total" />
+    <a-pagination
+      v-model:current="listQuery.page"
+      v-model:pageSize="listQuery.pageSize"
+      class="wallpaper-pagination"
+      :total="total"
+      :hide-on-single-page="true"
+      :show-quick-jumper="true"
+      :show-size-changer="false"
+    />
 
     <a-divider orientation="left" orientation-margin="16px">自定义壁纸</a-divider>
     <a-input-group compact>
@@ -91,6 +100,14 @@ watch(listQuery, () => {
 
 const handleClose = () => {
   emit('update:modelVisible', false)
+}
+
+const onTabChange = () => {
+  if (listQuery.page !== 1) {
+    listQuery.page = 1
+  } else {
+    fetchList()
+  }
 }
 
 const fetchAblumList = () => {
@@ -172,6 +189,7 @@ const setBackground = (url: string) => {
 <style lang="less" scoped>
 .wallpaper {
   &-item {
+    position: relative;
     cursor: pointer;
 
     &__thumb {
@@ -179,6 +197,34 @@ const setBackground = (url: string) => {
       height: 130px;
       object-fit: cover;
     }
+
+    &__title {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 22px;
+      padding: 0 8px;
+      overflow: hidden;
+      color: #ffffff;
+      line-height: 22px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      background-color: rgba(#000000, 0.45);
+    }
+
+    &__checked {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      color: #ffffff;
+      font-size: 18px;
+      text-shadow: 0 1px 4px #000000;
+    }
+  }
+
+  &-pagination {
+    padding-top: 24px;
+    text-align: center;
   }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <a-modal v-model:visible="visible" title="图标设置" :centered="true" width="76%" :footer="null" @cancel="handleClose">
+  <a-modal v-model:visible="visible" title="图标设置" :centered="true" width="75%" :footer="null" @cancel="handleClose">
     <a-tabs v-model:activeKey="activeKey" type="card">
       <a-tab-pane v-for="item in tabList" :key="item.key" :tab="item.name">
         <ul class="icon-list">

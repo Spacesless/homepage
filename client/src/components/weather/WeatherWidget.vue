@@ -24,8 +24,9 @@ window.WIDGET = {
 }
 
 const loadJs = () => {
-  if (document.querySelector('#js-weather')) {
-    return
+  const sdkEl = document.querySelector('#js-weather')
+  if (sdkEl) {
+    document.body.removeChild(sdkEl)
   }
 
   const scriptElement = document.createElement('script')

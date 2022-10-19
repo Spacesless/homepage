@@ -1,5 +1,5 @@
 <template>
-  <div v-if="iconShow" id="desktop" class="desktop">
+  <div id="desktop" class="desktop">
     <div v-for="(item, index) in iconList" :key="index" class="desktop-item" @dblclick="gotoUrl(item.url)">
       <a-dropdown :trigger="['contextmenu']">
         <div>
@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { Modal } from 'ant-design-vue'
 import Sortable from 'sortablejs'
 import { useSettingStore, Icon } from '@/store/setting'
@@ -41,8 +41,6 @@ const settingStore = useSettingStore()
 const iconList = ref(settingStore.desktopIcon)
 const settingVisible = ref<boolean>(false)
 const editIndex = ref<number>()
-
-const iconShow = computed(() => settingStore.iconShow)
 
 onMounted(() => {
   const el = document.getElementById('desktop')

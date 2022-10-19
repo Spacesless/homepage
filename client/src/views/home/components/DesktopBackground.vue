@@ -28,22 +28,27 @@
     </template>
   </a-dropdown>
 
+  <!-- 图标设置 -->
   <AddIcon v-model:modelVisible="iconVisible" />
   <!-- 壁纸设置 -->
   <SettingWallpaper v-model:modelVisible="wallpaperVisible" />
+  <!-- 桌面小组件 -->
+  <SettingWidget v-model:modelVisible="widgetVisible" />
 </template>
 
 <script setup lang="ts">
 import { ref, computed, nextTick } from 'vue'
 import { useSettingStore } from '@/store/setting'
 import type { MenuProps } from 'ant-design-vue'
-import SettingWallpaper from './setting/SettingWallpaper.vue'
 import AddIcon from './setting/AddIcon.vue'
+import SettingWallpaper from './setting/SettingWallpaper.vue'
+import SettingWidget from './setting/SettingWidget.vue'
 
 const settingStore = useSettingStore()
 
 const iconVisible = ref<boolean>(false)
 const wallpaperVisible = ref<boolean>(false)
+const widgetVisible = ref<boolean>(false)
 
 const iconShow = computed(() => settingStore.iconShow)
 
@@ -56,21 +61,18 @@ const handleMenuClick: MenuProps['onClick'] = e => {
       })
       break
     case 'icon':
-      return addIcon()
+      iconVisible.value = true
+      break
     case 'toggle-icon':
       settingStore.iconShow = !settingStore.iconShow
-      return
+      break
     case 'wallpaper':
-      return settingWallpaper()
+      wallpaperVisible.value = true
+      break
+    case 'widget':
+      widgetVisible.value = true
+      break
   }
-}
-
-const addIcon = () => {
-  iconVisible.value = true
-}
-
-const settingWallpaper = () => {
-  wallpaperVisible.value = true
 }
 </script>
 
