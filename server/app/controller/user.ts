@@ -53,7 +53,9 @@ export default class UserController extends Controller {
 
     if (findUser) {
       ctx.session.resetUsername = findUser.username;
-      return this.success();
+      return this.success({
+        question: findUser.question,
+      });
     }
 
     return this.fail('未找到该用户');

@@ -19,8 +19,8 @@
 
       <a-form-item>
         <div class="login-links">
-          <router-link to="/register" target="_blank">去注册>></router-link>
-          <router-link to="/forgot" target="_blank">忘记密码?</router-link>
+          <router-link to="/register">去注册>></router-link>
+          <router-link to="/forgot">忘记密码?</router-link>
         </div>
       </a-form-item>
 

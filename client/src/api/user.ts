@@ -1,11 +1,11 @@
 import request from '@/plugins/axios'
 
-interface RegisterParams {
+export interface RegisterParams {
   username: string
   password: string
   question: string
   answer: string
-  tips: string
+  tip: string
 }
 
 export function Register(data: RegisterParams) {

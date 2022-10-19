@@ -28,7 +28,7 @@
     width: 40px;
     height: 40px;
     list-style: none;
-    background-color: rgba(@primary-color, 0.2);
+    background-color: rgba(@primary-color, 0.3);
     transition-timing-function: linear;
     animation: square 25s infinite;
 
@@ -53,7 +53,7 @@
       left: 40%;
       width: 60px;
       height: 60px;
-      background-color: rgba(@primary-color, 0.3);
+      background-color: rgba(@primary-color, 0.4);
       animation-duration: 22s;
     }
 
@@ -65,7 +65,7 @@
       left: 80%;
       width: 120px;
       height: 120px;
-      background-color: rgba(@primary-color, 0.25);
+      background-color: rgba(@primary-color, 0.35);
       animation-delay: 3s;
     }
 
@@ -88,7 +88,7 @@
       left: 25%;
       width: 10px;
       height: 10px;
-      background-color: rgba(@primary-color, 0.35);
+      background-color: rgba(@primary-color, 0.45);
       animation-duration: 40s;
       animation-delay: 2s;
     }
