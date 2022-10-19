@@ -7,8 +7,6 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    AAutoComplete: typeof import('ant-design-vue/es')['AutoComplete']
-    AAvatar: typeof import('ant-design-vue/es')['Avatar']
     AButton: typeof import('ant-design-vue/es')['Button']
     ACheckbox: typeof import('ant-design-vue/es')['Checkbox']
     ACol: typeof import('ant-design-vue/es')['Col']
@@ -25,7 +23,6 @@ declare module '@vue/runtime-core' {
     AMenuDivider: typeof import('ant-design-vue/es')['MenuDivider']
     AMenuItem: typeof import('ant-design-vue/es')['MenuItem']
     AModal: typeof import('ant-design-vue/es')['Modal']
-    AntPagination: typeof import('./src/components/AntPagination.vue')['default']
     APagination: typeof import('ant-design-vue/es')['Pagination']
     AppstoreOutlined: typeof import('@ant-design/icons-vue')['AppstoreOutlined']
     AppWidget: typeof import('./src/components/AppWidget.vue')['default']
@@ -37,7 +34,6 @@ declare module '@vue/runtime-core' {
     ASwitch: typeof import('ant-design-vue/es')['Switch']
     ATabPane: typeof import('ant-design-vue/es')['TabPane']
     ATabs: typeof import('ant-design-vue/es')['Tabs']
-    CheckCircleOutlined: typeof import('@ant-design/icons-vue')['CheckCircleOutlined']
     CheckOutlined: typeof import('@ant-design/icons-vue')['CheckOutlined']
     CloseOutlined: typeof import('@ant-design/icons-vue')['CloseOutlined']
     EyeInvisibleOutlined: typeof import('@ant-design/icons-vue')['EyeInvisibleOutlined']

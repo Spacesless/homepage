@@ -2,7 +2,7 @@
   <div id="desktop" class="desktop">
     <div v-for="(item, index) in iconList" :key="index" class="desktop-item" @dblclick="gotoUrl(item.url)">
       <a-dropdown :trigger="['contextmenu']">
-        <div>
+        <div :title="item.url">
           <a-image
             class="desktop-item__icon"
             :width="50"

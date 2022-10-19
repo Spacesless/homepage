@@ -20,7 +20,7 @@ const routes: VueRouter.RouteRecordRaw[] = [
 
 // 路由
 const router = VueRouter.createRouter({
-  history: VueRouter.createWebHashHistory(),
+  history: VueRouter.createWebHistory(),
   routes
 })
 

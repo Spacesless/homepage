@@ -11,4 +11,6 @@ export default (app: Application) => {
   router.post('/api/user/reset', controller.user.reset);
   // RESTful Api
   router.resources('setting', '/api/setting', controller.setting);
+
+  router.get('/api/suggestion', controller.suggestion.index);
 };

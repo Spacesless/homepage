@@ -3,6 +3,7 @@
     <AppWidget :close-key="WidgetShow.search" :is-show-config="true">
       <a-input-group class="search-input" compact>
         <a-input
+          ref="inputRef"
           v-model:value="keyword"
           allow-clear
           class="search-keyword"
@@ -20,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, nextTick } from 'vue'
 import { useSettingStore } from '@/store/setting'
 import AppWidget from '@/components/AppWidget.vue'
 import { WidgetShow } from '@/types/enums'
@@ -58,10 +59,18 @@ const engineOptions = ref([
 const engine = ref<string>(settingStore.searchEngine)
 const keyword = ref<string>('')
 const isFocus = ref<boolean>(false)
+const inputRef = ref()
 
 const searchUrl = computed(() => {
   const findEngine = engineOptions.value.find(item => item.value === engine.value)
   return findEngine ? findEngine.url + keyword.value : ''
+})
+
+onMounted(() => {
+  inputRef.value.focus()
+  nextTick(() => {
+    isFocus.value = false
+  })
 })
 
 const handleSearch = () => {
