@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import md5 from 'md5'
 import { UserLogin, LoginParams, UserLogout } from '@/api/user'
 
 interface State {
@@ -17,7 +18,11 @@ export const useUserStore = defineStore('user', {
   },
   actions: {
     login(data: LoginParams) {
-      return UserLogin(data)
+      const { username, password } = data
+      return UserLogin({
+        username: username.toString().trim(),
+        password: md5(password)
+      })
         .then(res => {})
         .catch(() => {})
     },

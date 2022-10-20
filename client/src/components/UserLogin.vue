@@ -8,7 +8,7 @@
     @cancel="handleClose"
   >
     <h1 class="login__title">用户登录</h1>
-    <a-form class="login" :model="formState" autocomplete="off" @finish="onFinish">
+    <a-form class="login" :model="formState" autocomplete="off" @finish="handleLogin">
       <a-form-item name="username" :rules="[{ required: true, message: '请输入用户名' }]">
         <a-input v-model:value="formState.username" placeholder="请输入用户名" size="large" />
       </a-form-item>
@@ -32,8 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, computed } from 'vue'
-import md5 from 'md5'
+import { ref, reactive, computed } from 'vue'
 import { message } from 'ant-design-vue'
 import { useUserStore } from '@/store/user'
 
@@ -56,6 +55,7 @@ const formState = reactive<FormState>({
   username: '',
   password: ''
 })
+const loginLoading = ref<boolean>(false)
 
 const visible = computed(() => props.modelVisible)
 
@@ -63,23 +63,17 @@ const handleClose = () => {
   emit('update:modelVisible', false)
 }
 
-const onFinish = (values: any) => {
-  console.log('Success:', values)
-}
-
-const handleLogin = () => {
-  const { username, password } = formState
-  userStore
-    .login({
-      username: username.trim(),
-      password: md5(password)
-    })
+const handleLogin = async () => {
+  loginLoading.value = true
+  await userStore
+    .login(formState)
     .then(() => {
       message.success('登录成功')
     })
     .catch(() => {
       message.success('登录失败')
     })
+  loginLoading.value = false
 }
 </script>
 

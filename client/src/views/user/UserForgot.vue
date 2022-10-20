@@ -10,7 +10,8 @@
       <a-step title="重置密码" />
     </a-steps>
 
-    <a-form v-if="step === 0" :model="usernameForm" layout="vertical" autocomplete="off">
+    <!-- 验证用户名 -->
+    <a-form v-if="step === 0" :model="usernameForm" layout="vertical" autocomplete="off" @finish="checkUsername">
       <a-form-item label="用户名" name="username" :rules="[{ required: true, message: '请输入用户名' }]">
         <a-input v-model:value="usernameForm.username" size="large" placeholder="请输入用户名"></a-input>
       </a-form-item>
@@ -18,7 +19,8 @@
       <a-button type="primary" class="forgot-button" size="large" html-type="submit">下一步</a-button>
     </a-form>
 
-    <a-form v-else-if="step === 1" :model="answerForm" layout="vertical" autocomplete="off">
+    <!-- 密保问题验证 -->
+    <a-form v-else-if="step === 1" :model="answerForm" layout="vertical" autocomplete="off" @finish="checkAnswer">
       <a-form-item label="密保问题" name="question">
         <a-input v-model:value="answerForm.question" readonly></a-input>
       </a-form-item>
@@ -32,7 +34,15 @@
       <a-button type="primary" class="forgot-button" size="large" html-type="submit">下一步</a-button>
     </a-form>
 
-    <a-form v-else-if="step === 2" class="reset" :model="resetForm" layout="vertical" autocomplete="off">
+    <!-- 重置密码 -->
+    <a-form
+      v-else-if="step === 2"
+      class="reset"
+      :model="resetForm"
+      layout="vertical"
+      autocomplete="off"
+      @finish="resetPassword"
+    >
       <a-form-item label="密码" name="password" :rules="[{ required: true, message: '请输入密码' }]">
         <a-input-password v-model:value="resetForm.password" placeholder="请输入密码" />
       </a-form-item>
@@ -49,19 +59,23 @@
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
 import { message } from 'ant-design-vue'
+import md5 from 'md5'
 import { CheckUsername, CheckAnswer, ResetPassword } from '@/api/user'
 import BoxAnimation from './components/BoxAnimation.vue'
+
+interface ResetForm {
+  password: string
+  againPassword: string
+}
 
 const step = ref<number>(0)
 const username = ref<string>('')
 const answer = ref<string>('')
 const responseId = ref<string>('')
 const tip = ref<string>('')
-
-interface ResetForm {
-  password: string
-  againPassword: string
-}
+const checkUsernameLoading = ref<boolean>(false)
+const checkAnswerLoading = ref<boolean>(false)
+const resetLoading = ref<boolean>(false)
 
 const usernameForm = reactive({
   username: ''
@@ -77,35 +91,62 @@ const resetForm = reactive<ResetForm>({
   againPassword: ''
 })
 
-const checkUsername = () => {
-  CheckUsername({ username: username.value })
+const checkUsername = async () => {
+  checkUsernameLoading.value = true
+  await CheckUsername({ username: username.value })
     .then(res => {
       const { question } = res.data
 
       answerForm.question = question
     })
-    .catch(() => {})
+    .catch(({ msg }) => {
+      msg &&
+        message.error({
+          key: 'fail',
+          content: msg
+        })
+    })
+  checkUsernameLoading.value = false
 }
 
-const checkAnswer = () => {
-  CheckAnswer({ answer: answer.value })
+const checkAnswer = async () => {
+  checkAnswerLoading.value = true
+  await CheckAnswer({ answer: answer.value })
     .then(res => {
       responseId.value = res.data
     })
-    .catch(({ data }) => {
+    .catch(({ msg, data }) => {
+      msg &&
+        message.error({
+          key: 'fail',
+          content: msg
+        })
+
       tip.value = data.tip
     })
+  checkAnswerLoading.value = false
 }
 
-const resetPassword = () => {
-  ResetPassword({
+const resetPassword = async () => {
+  resetLoading.value = true
+  await ResetPassword({
     responseId: responseId.value,
-    password: resetForm.password
+    password: md5(resetForm.password)
   })
     .then(res => {
-      responseId.value = res.data
+      message.success({
+        key: 'success',
+        content: '密码重置成功，请重新登录'
+      })
     })
-    .catch(() => {})
+    .catch(({ msg }) => {
+      msg &&
+        message.error({
+          key: 'fail',
+          content: msg
+        })
+    })
+  resetLoading.value = false
 }
 </script>
 

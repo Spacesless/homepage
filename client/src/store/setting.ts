@@ -23,8 +23,12 @@ export const useSettingStore = defineStore('setting', {
   persist: true,
   state: (): State => {
     return {
-      background: '',
-      desktopIcon: [],
+      background: 'http://img.timelessq.com/images/2021/11/18/28e8f42625ab99cf3.jpg',
+      desktopIcon: [
+        { name: '哔哩哔哩', url: 'https://www.bilibili.com' },
+        { name: '腾讯视频', url: 'https://v.qq.com' },
+        { name: '网易云音乐', url: 'https://music.163.com' }
+      ],
       iconShow: true,
       searchEngine: 'baidu',
       searchShow: true,

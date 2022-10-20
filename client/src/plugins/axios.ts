@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { message } from 'ant-design-vue'
 
 // 自定义 axios 实例
 const myAxios = axios.create({
@@ -26,8 +27,27 @@ myAxios.interceptors.response.use(
     return response.data
   },
   function (error) {
+    const errorString = error.toString()
+    console.log(errorString) // for debug
+
+    const { data } = error.response || {}
+
+    let errorEsg = data?.msg
+
+    if (errorString.includes('timeout')) {
+      errorEsg = '请求超时，请稍后重试'
+    } else if (errorString.includes('Network Error')) {
+      errorEsg = '网络错误，请稍后重试'
+    }
+
+    errorEsg &&
+      message.error({
+        key: 'fail',
+        content: errorEsg
+      })
+
     // 对响应错误做点什么
-    return Promise.reject(error)
+    return Promise.reject(data || error)
   }
 )
 

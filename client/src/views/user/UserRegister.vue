@@ -33,8 +33,9 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue'
+import { ref, reactive } from 'vue'
 import { message } from 'ant-design-vue'
+import md5 from 'md5'
 import { Register, RegisterParams } from '@/api/user'
 import BoxAnimation from './components/BoxAnimation.vue'
 
@@ -45,15 +46,25 @@ const formState = reactive<RegisterParams>({
   answer: '',
   tip: ''
 })
+const registerLoading = ref<boolean>(false)
 
-const handleRegister = () => {
-  Register(formState)
+const handleRegister = async () => {
+  const { username, password } = formState
+  const sendData = {
+    ...formState,
+    username: username.trim(),
+    password: md5(password)
+  }
+
+  registerLoading.value = true
+  await Register(sendData)
     .then(res => {
       message.success('用户注册成功，请前往登录')
     })
     .catch(({ msg }) => {
       msg && message.error(msg)
     })
+  registerLoading.value = false
 }
 </script>
 
