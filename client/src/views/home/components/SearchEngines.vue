@@ -74,7 +74,9 @@ onMounted(() => {
 })
 
 const handleSearch = () => {
-  searchUrl.value && window.open(searchUrl.value)
+  if (searchUrl.value) {
+    location.href = searchUrl.value
+  }
 }
 
 const changeEngine = (val: string) => {

@@ -1,23 +1,42 @@
-import Controller from '../core/base_controller';
+'use strict';
 
-export default class SettingController extends Controller {
-  public async index() {
+const Controller = require('../core/base_controller');
+
+class SettingController extends Controller {
+  async index() {
     const { ctx, service } = this;
 
     const userId = ctx.session.userId;
     const record = await service.setting.findRecord(userId);
 
     if (record) {
-      return this.success(record);
+      const { desktopIcon, iconShow, searchShow, weatherShow, todoShow } = record
+      let formatDesktopIcon = []
+
+      try {
+        formatDesktopIcon = JSON.parse(desktopIcon)
+      }catch {
+        formatDesktopIcon = []
+      }
+      const result = {
+        ...record,
+        desktopIcon: formatDesktopIcon,
+        iconShow: !!iconShow,
+        searchShow: !!searchShow,
+        weatherShow: !!weatherShow,
+        todoShow: !!todoShow
+      }
+
+      return this.success(result);
     }
 
     return this.fail('未找到对应记录');
   }
 
-  public async create() {
+  async create() {
     const { ctx, service } = this;
 
-    const params = ctx.params;
+    const params = ctx.request.body;
     const userId = ctx.session.userId;
 
     params.userId = userId;
@@ -30,10 +49,10 @@ export default class SettingController extends Controller {
     return this.fail('云端存储配置失败');
   }
 
-  public async update() {
+  async update() {
     const { ctx, service } = this;
 
-    const params = ctx.params;
+    const params = ctx.request.body;
 
     const userId = ctx.session.userId;
     const result = await service.setting.updateRecord(params, userId);
@@ -45,3 +64,5 @@ export default class SettingController extends Controller {
     return this.fail('云端存储配置失败');
   }
 }
+
+module.exports = SettingController

@@ -8,14 +8,20 @@
           <reload-outlined class="menu-item__icon" />
           <span>刷新</span>
         </a-menu-item>
-        <a-menu-item key="icon">
-          <setting-outlined class="menu-item__icon" />
-          <span>图标设置</span>
-        </a-menu-item>
+
+        <a-menu-divider />
+
         <a-menu-item key="toggle-icon">
           <eye-invisible-outlined class="menu-item__icon" />
           <span>{{ iconShow ? '隐藏' : '显示' }}图标</span>
         </a-menu-item>
+        <a-menu-item key="icon">
+          <setting-outlined class="menu-item__icon" />
+          <span>图标设置</span>
+        </a-menu-item>
+
+        <a-menu-divider />
+
         <a-menu-item key="wallpaper">
           <picture-outlined class="menu-item__icon" />
           <span>壁纸设置</span>
@@ -56,9 +62,9 @@ const handleMenuClick: MenuProps['onClick'] = e => {
   switch (e.key) {
     case 'refresh':
       settingStore.iconShow = false
-      nextTick(() => {
+      setTimeout(() => {
         settingStore.iconShow = true
-      })
+      }, 0)
       break
     case 'icon':
       iconVisible.value = true

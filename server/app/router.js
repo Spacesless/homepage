@@ -1,6 +1,9 @@
-import { Application } from 'egg';
+'use strict';
 
-export default (app: Application) => {
+/**
+ * @param {Egg.Application} app - egg application
+ */
+module.exports = app => {
   const { controller, router } = app;
 
   router.post('/api/user/register', controller.user.register);

@@ -1,14 +1,16 @@
-import { Controller } from 'egg';
+'use strict';
+
+const { Controller } = require('egg');
 
 class BaseController extends Controller {
-  success(data: any = null) {
+  success(data = null) {
     this.ctx.body = {
       success: true,
       data,
     };
   }
 
-  fail(msg: string, data: any = null) {
+  fail(msg, data = null) {
     this.ctx.body = {
       success: false,
       msg,
@@ -17,4 +19,4 @@ class BaseController extends Controller {
   }
 }
 
-export default BaseController;
+module.exports = BaseController;

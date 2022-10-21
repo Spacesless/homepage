@@ -1,5 +1,5 @@
 export default function getPageTitle(pageTitle?: string) {
-  const title = '浏览器首页'
+  const title = 'Geek Homepage'
   if (pageTitle) {
     return `${pageTitle} - ${title}`
   }

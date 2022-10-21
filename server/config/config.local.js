@@ -1,7 +1,9 @@
-import { EggAppConfig, PowerPartial } from 'egg';
+/* eslint valid-jsdoc: "off" */
 
-export default () => {
-  const config: PowerPartial<EggAppConfig> = {
+'use strict';
+
+module.exports = () => {
+  const config = {
     session: {
       key: 'EGG_SESS',
       maxAge: 30 * 24 * 3600 * 1000, // 30 天
@@ -15,13 +17,14 @@ export default () => {
         // 端口号
         port: '3306',
         // 用户名
-        user: '',
+        user: 'root',
         // 密码
-        password: '',
+        password: 'root',
         // 数据库名
         database: 'homepage',
       },
     },
   };
+
   return config;
 };

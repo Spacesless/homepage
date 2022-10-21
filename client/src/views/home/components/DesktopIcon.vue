@@ -1,6 +1,6 @@
 <template>
   <div id="desktop" class="desktop">
-    <div v-for="(item, index) in iconList" :key="index" class="desktop-item" @dblclick="gotoUrl(item.url)">
+    <div v-for="(item, index) in desktopIcon" :key="item.url" class="desktop-item" @dblclick="gotoUrl(item.url)">
       <a-dropdown :trigger="['contextmenu']">
         <div :title="item.url">
           <a-image
@@ -30,6 +30,7 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { ref, onMounted } from 'vue'
 import { Modal } from 'ant-design-vue'
 import Sortable from 'sortablejs'
@@ -38,17 +39,17 @@ import SettingIcon from './setting/SettingIcon.vue'
 
 const settingStore = useSettingStore()
 
-const iconList = ref(settingStore.desktopIcon)
+const { desktopIcon } = storeToRefs(settingStore)
 const settingVisible = ref<boolean>(false)
 const editIndex = ref<number>()
 
 onMounted(() => {
   const el = document.getElementById('desktop')
   if (el) {
-    const sortableInstance = new Sortable(el, {
+    new Sortable(el, {
       onEnd: ({ oldIndex, newIndex }) => {
-        const targetIcon = iconList.value.splice(oldIndex || -1, 1)[0]
-        settingStore.desktopIcon.splice(newIndex || -1, 0, targetIcon)
+        const targetIcon = desktopIcon.value.splice(oldIndex || -1, 1)[0]
+        desktopIcon.value.splice(newIndex || -1, 0, targetIcon)
       }
     })
   }
