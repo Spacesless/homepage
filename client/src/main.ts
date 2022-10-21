@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+import 'ant-design-vue/es/message/style/css'
 import router from './router'
 import App from './App.vue'
 import './middleware/router-guard'

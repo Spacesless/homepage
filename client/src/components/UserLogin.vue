@@ -68,10 +68,18 @@ const handleLogin = async () => {
   await userStore
     .login(formState)
     .then(() => {
-      message.success('登录成功')
+      emit('update:modelVisible', false)
+
+      message.success({
+        content: '登录成功',
+        key: 'succ'
+      })
     })
     .catch(() => {
-      message.success('登录失败')
+      message.error({
+        content: '登录失败',
+        key: 'fail'
+      })
     })
   loginLoading.value = false
 }

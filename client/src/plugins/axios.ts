@@ -1,9 +1,15 @@
 import axios from 'axios'
 import { message } from 'ant-design-vue'
+import Cookies from 'js-cookie'
+
+const csrftoken = Cookies.get('csrfToken')
 
 // 自定义 axios 实例
 const myAxios = axios.create({
-  baseURL: 'http://127.0.0.1:7001/api'
+  baseURL: '/api',
+  headers: {
+    'x-csrf-token': csrftoken || ''
+  }
 })
 
 myAxios.defaults.withCredentials = true
@@ -23,8 +29,12 @@ myAxios.interceptors.request.use(
 // 添加响应拦截器
 myAxios.interceptors.response.use(
   function (response) {
-    // 对响应数据做点什么
-    return response.data
+    if (response.data.success) {
+      // 对响应数据做点什么
+      return response.data
+    }
+
+    return Promise.reject(response.data)
   },
   function (error) {
     const errorString = error.toString()

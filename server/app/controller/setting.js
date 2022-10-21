@@ -26,6 +26,7 @@ class SettingController extends Controller {
         weatherShow: !!weatherShow,
         todoShow: !!todoShow
       }
+      delete result.userId
 
       return this.success(result);
     }

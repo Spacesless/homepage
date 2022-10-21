@@ -9,16 +9,16 @@ export function GetSetting() {
 
 export function CreateSetting(data: object) {
   return request({
-    url: '/setting/create',
-    method: 'put',
+    url: '/setting',
+    method: 'post',
     data
   })
 }
 
-export function UpdateSetting(data: object) {
+export function UpdateSetting(userId: number, data: object) {
   return request({
-    url: '/setting/update',
-    method: 'post',
+    url: '/setting/' + userId,
+    method: 'put',
     data
   })
 }

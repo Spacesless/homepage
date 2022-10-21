@@ -8,7 +8,7 @@
         </div>
         <template #overlay>
           <a-menu>
-            <a-menu-item>同步配置</a-menu-item>
+            <a-menu-item @click="changePassword">修改密码</a-menu-item>
             <a-menu-divider />
             <a-menu-item @click="handleLogout">退出</a-menu-item>
           </a-menu>
@@ -40,6 +40,8 @@ const handleLogin = () => {
 const handleLogout = () => {
   userStore.logout()
 }
+
+const changePassword = () => {}
 </script>
 
 <style lang="less" scoped>

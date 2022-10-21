@@ -30,5 +30,11 @@ export default defineConfig({
         additionalData: '@import "./src/styles/settings/variables.less";'
       }
     }
+  },
+  server: {
+    proxy: {
+      // 字符串简写写法
+      '/api': 'http://127.0.0.1:7001'
+    }
   }
 })

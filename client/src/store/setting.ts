@@ -1,5 +1,9 @@
 import { defineStore } from 'pinia'
+import { message } from 'ant-design-vue'
 import { GetSetting, CreateSetting, UpdateSetting } from '@/api/setting'
+import { useUserStore } from './user'
+
+const userStore = useUserStore()
 
 export interface Icon {
   name: string
@@ -12,7 +16,6 @@ interface State {
   iconShow: boolean
   searchEngine: string
   searchShow: boolean
-  engineList: Array<Icon>
   weatherShow: boolean
   todoShow: boolean
 }
@@ -32,25 +35,39 @@ export const useSettingStore = defineStore('setting', {
       iconShow: true,
       searchEngine: 'baidu',
       searchShow: true,
-      engineList: [],
       weatherShow: false,
       todoShow: false
     }
   },
   actions: {
-    getSetting() {
-      GetSetting().then(res => {
-        console.log(res.data)
+    getSetting(isForce: boolean = true) {
+      return GetSetting().then(res => {
+        const data = res.data || {}
+
+        if (isForce) {
+          this.$state = data
+        }
+
+        return data
       })
     },
     storeSetting() {
-      CreateSetting(this.$state).then(res => {
-        console.log(res.data)
+      CreateSetting(this.$state).catch(() => {
+        message.error({
+          key: 'fail',
+          content: '云端存储配置失败'
+        })
       })
     },
     updateSetting(setting: object) {
-      UpdateSetting(setting).then(res => {
-        console.log(res.data)
+      if (!userStore.userId) {
+        return
+      }
+      UpdateSetting(userStore.userId, setting).catch(() => {
+        message.error({
+          key: 'fail',
+          content: '云端存储配置失败'
+        })
       })
     }
   }

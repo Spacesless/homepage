@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, nextTick } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useSettingStore } from '@/store/setting'
 import type { MenuProps } from 'ant-design-vue'
 import AddIcon from './setting/AddIcon.vue'
@@ -61,6 +61,7 @@ const iconShow = computed(() => settingStore.iconShow)
 const handleMenuClick: MenuProps['onClick'] = e => {
   switch (e.key) {
     case 'refresh':
+      settingStore.getSetting()
       settingStore.iconShow = false
       setTimeout(() => {
         settingStore.iconShow = true
