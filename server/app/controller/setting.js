@@ -10,13 +10,13 @@ class SettingController extends Controller {
     const record = await service.setting.findRecord(userId);
 
     if (record) {
-      const { desktopIcon, iconShow, searchShow, weatherShow, todoShow } = record
-      let formatDesktopIcon = []
+      const { desktopIcon, iconShow, searchShow, weatherShow, todoShow } = record;
+      let formatDesktopIcon = [];
 
       try {
-        formatDesktopIcon = JSON.parse(desktopIcon)
-      }catch {
-        formatDesktopIcon = []
+        formatDesktopIcon = JSON.parse(desktopIcon);
+      } catch {
+        formatDesktopIcon = [];
       }
       const result = {
         ...record,
@@ -24,9 +24,9 @@ class SettingController extends Controller {
         iconShow: !!iconShow,
         searchShow: !!searchShow,
         weatherShow: !!weatherShow,
-        todoShow: !!todoShow
-      }
-      delete result.userId
+        todoShow: !!todoShow,
+      };
+      delete result.userId;
 
       return this.success(result);
     }
@@ -66,4 +66,4 @@ class SettingController extends Controller {
   }
 }
 
-module.exports = SettingController
+module.exports = SettingController;

@@ -24,6 +24,9 @@ module.exports = () => {
         database: 'homepage',
       },
     },
+    security: {
+      csrf: false,
+    },
   };
 
   return config;

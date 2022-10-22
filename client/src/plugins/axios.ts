@@ -1,15 +1,9 @@
 import axios from 'axios'
 import { message } from 'ant-design-vue'
-import Cookies from 'js-cookie'
-
-const csrftoken = Cookies.get('csrfToken')
 
 // 自定义 axios 实例
 const myAxios = axios.create({
-  baseURL: '/api',
-  headers: {
-    'x-csrf-token': csrftoken || ''
-  }
+  baseURL: '/api'
 })
 
 myAxios.defaults.withCredentials = true

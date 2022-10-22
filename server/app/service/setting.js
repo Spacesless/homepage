@@ -8,12 +8,12 @@ class Setting extends Service {
   }
 
   async createRecord(row) {
-    const { desktopIcon } = row
+    const { desktopIcon } = row;
 
     row = {
       ...row,
-      desktopIcon: JSON.stringify(desktopIcon)
-    }
+      desktopIcon: JSON.stringify(desktopIcon),
+    };
     const result = await this.app.mysql.insert('app_setting', row);
 
     return result;
@@ -26,12 +26,12 @@ class Setting extends Service {
       },
     };
 
-    const { desktopIcon } = row
+    const { desktopIcon } = row;
 
     row = {
       ...row,
-      desktopIcon: JSON.stringify(desktopIcon)
-    }
+      desktopIcon: JSON.stringify(desktopIcon),
+    };
 
     const result = await this.app.mysql.update('app_setting', row, options);
 
@@ -39,4 +39,4 @@ class Setting extends Service {
   }
 }
 
-module.exports = Setting
+module.exports = Setting;

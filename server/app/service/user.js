@@ -2,7 +2,7 @@ const { Service } = require('egg');
 
 class User extends Service {
   async createUser(row) {
-    row.createTime = this.app.mysql.literals.now
+    row.createTime = this.app.mysql.literals.now;
 
     const result = await this.app.mysql.insert('app_user', row);
 
@@ -24,7 +24,7 @@ class User extends Service {
   async updateLoginTime(userId) {
     const options = {
       where: {
-        id: userId
+        id: userId,
       },
     };
 
@@ -46,4 +46,4 @@ class User extends Service {
   }
 }
 
-module.exports = User
+module.exports = User;

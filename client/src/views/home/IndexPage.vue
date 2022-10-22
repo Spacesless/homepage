@@ -27,15 +27,9 @@ const settingStore = useSettingStore()
 const { iconShow, searchShow } = storeToRefs(settingStore)
 const { userId } = storeToRefs(userStore)
 
-watch(
-  settingStore.$state,
-  (newVal, oldValue) => {
-    if (JSON.stringify(newVal) !== JSON.stringify(oldValue)) {
-      updateStore(newVal)
-    }
-  },
-  { deep: true }
-)
+watch(settingStore.$state, data => {
+  updateStore(data)
+})
 
 watch(
   userId,
@@ -64,7 +58,7 @@ watch(
 
 const updateStore = debounce(data => {
   settingStore.updateSetting(data)
-}, 200)
+}, 500)
 </script>
 
 <style lang="less" scoped>

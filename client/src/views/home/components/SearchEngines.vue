@@ -2,16 +2,23 @@
   <div class="search" :class="{ 'search--active': isFocus }">
     <AppWidget :close-key="WidgetShow.search" :is-show-config="true">
       <a-input-group class="search-input" compact>
-        <a-input
-          ref="inputRef"
+        <a-auto-complete
           v-model:value="keyword"
-          allow-clear
+          :options="options"
           class="search-keyword"
-          size="large"
-          @keyup.enter="handleSearch"
-          @focus="isFocus = true"
-          @blur="isFocus = false"
-        />
+          @search="onSearch"
+          @select="handleSearch"
+        >
+          <a-input
+            ref="inputRef"
+            v-model:value="keyword"
+            allow-clear
+            size="large"
+            @keyup.enter="handleSearch"
+            @focus="isFocus = true"
+            @blur="isFocus = false"
+          />
+        </a-auto-complete>
         <a-select v-model:value="engine" class="search-engine" size="large" @change="changeEngine">
           <a-select-option v-for="item in engineOptions" :key="item.value">{{ item.label }}</a-select-option>
         </a-select>
@@ -22,9 +29,11 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, nextTick } from 'vue'
+import { debounce } from 'lodash'
 import { useSettingStore } from '@/store/setting'
 import AppWidget from '@/components/AppWidget.vue'
 import { WidgetShow } from '@/types/enums'
+import { SearchSuggestion } from '@/api/search'
 
 const settingStore = useSettingStore()
 
@@ -60,6 +69,7 @@ const engine = ref<string>(settingStore.searchEngine)
 const keyword = ref<string>('')
 const isFocus = ref<boolean>(false)
 const inputRef = ref()
+const options = ref<{ value: string }[]>([])
 
 const searchUrl = computed(() => {
   const findEngine = engineOptions.value.find(item => item.value === engine.value)
@@ -82,6 +92,35 @@ const handleSearch = () => {
 const changeEngine = (val: string) => {
   settingStore.searchEngine = val
 }
+
+const onSearch = (value: string) => {
+  if (value) {
+    getSuggestion(value)
+  } else {
+    options.value = []
+  }
+}
+
+interface SuggestionItem {
+  Txt: string
+}
+
+const getSuggestion = debounce((keyowrd: string) => {
+  SearchSuggestion(keyowrd).then(res => {
+    const data = res.data || []
+
+    if (keyword.value === '') {
+      options.value = []
+      return
+    }
+
+    options.value = data.map((item: SuggestionItem) => {
+      return {
+        value: item.Txt
+      }
+    })
+  })
+}, 200)
 </script>
 
 <style lang="less" scoped>

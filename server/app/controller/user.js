@@ -33,18 +33,15 @@ class UserController extends Controller {
       if (password === params.password) {
         ctx.session.userId = id;
 
-        service.user.updateLoginTime(id)
-
-        // 调用 rotateCsrfSecret 刷新用户的 CSRF token
-        ctx.rotateCsrfSecret();
+        service.user.updateLoginTime(id);
 
         return this.success({
           id,
           username,
         });
-      } else {
-        return this.fail('用户名或密码不正确');
       }
+      return this.fail('用户名或密码不正确');
+
     }
 
     return this.fail('未找到该用户');
@@ -59,27 +56,27 @@ class UserController extends Controller {
     const { ctx, service } = this;
     const params = ctx.request.body;
 
-    const userId = this.ctx.session.userId
-    if(!userId) {
-      return this.fail('请先登录')
+    const userId = this.ctx.session.userId;
+    if (!userId) {
+      return this.fail('请先登录');
     }
 
     const findUser = await service.user.findUser(ctx.session.userId);
 
-    const { oldPassword, password } = params
-    if(findUser) {
-      if(oldPassword === findUser.password) {
+    const { oldPassword, password } = params;
+    if (findUser) {
+      if (oldPassword === findUser.password) {
         const result = await service.user.resetPassword(userId, password);
 
         if (result.affectedRows === 1) {
-          this.ctx.session.userId = null
-          return this.success('修改密码成功，请重新登录')
+          this.ctx.session.userId = null;
+          return this.success('修改密码成功，请重新登录');
         }
       }
-      return this.fail('原密码不正确')
+      return this.fail('原密码不正确');
     }
 
-    return this.fail('修改密码失败')
+    return this.fail('修改密码失败');
   }
 
   async checkUsername() {
@@ -131,7 +128,7 @@ class UserController extends Controller {
       const result = await service.user.resetPassword(userId, params.password);
 
       if (result.affectedRows === 1) {
-        ctx.session.userId = null
+        ctx.session.userId = null;
         ctx.session.resetUsername = null;
         ctx.session.resetCheck = null;
         return this.success('重置密码成功');
@@ -142,4 +139,4 @@ class UserController extends Controller {
   }
 }
 
-module.exports = UserController
+module.exports = UserController;

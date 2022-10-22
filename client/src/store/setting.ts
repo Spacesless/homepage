@@ -64,6 +64,7 @@ export const useSettingStore = defineStore('setting', {
       })
     },
     updateSetting(setting: object) {
+      console.log(setting)
       if (!userStore.userId) {
         return
       }
