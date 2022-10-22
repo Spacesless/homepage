@@ -17,17 +17,22 @@
     </div>
   </div>
 
+  <!-- 用户登录 -->
   <UserLogin v-model:modelVisible="loginVisible" />
+  <!-- 修改密码 -->
+  <ChangePassword v-model:modelVisible="passwordVisible" />
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
 import UserLogin from '@/components/UserLogin.vue'
+import ChangePassword from '@/components/ChangePassword.vue'
 import { useUserStore } from '@/store/user'
 
 const userStore = useUserStore()
 
 const loginVisible = ref<boolean>(false)
+const passwordVisible = ref<boolean>(false)
 
 const handleLogin = () => {
   if (userStore.userId) {
@@ -41,7 +46,9 @@ const handleLogout = () => {
   userStore.logout()
 }
 
-const changePassword = () => {}
+const changePassword = () => {
+  passwordVisible.value = true
+}
 </script>
 
 <style lang="less" scoped>

@@ -40,8 +40,12 @@
 
 <script setup lang="ts">
 import { ref, reactive, computed, watch } from 'vue'
-import axios from '@/plugins/axios'
+import axios from 'axios'
 import { useSettingStore } from '@/store/setting'
+
+axios.interceptors.response.use(function (res) {
+  return res.data
+})
 
 interface Album {
   key: string

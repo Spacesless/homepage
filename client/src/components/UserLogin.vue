@@ -75,9 +75,9 @@ const handleLogin = async () => {
         key: 'succ'
       })
     })
-    .catch(() => {
+    .catch(err => {
       message.error({
-        content: '登录失败',
+        content: err.msg || '登录失败',
         key: 'fail'
       })
     })

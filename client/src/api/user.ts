@@ -36,6 +36,19 @@ export function UserLogout() {
   })
 }
 
+interface ChangeParams {
+  oldPassword: string
+  password: string
+}
+
+export function ChangePassword(data: ChangeParams) {
+  return request({
+    url: '/user/change-password',
+    method: 'post',
+    data
+  })
+}
+
 interface CheckUsernameParams {
   username: string
 }

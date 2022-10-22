@@ -41,6 +41,10 @@ export const useSettingStore = defineStore('setting', {
   },
   actions: {
     getSetting(isForce: boolean = true) {
+      if (!userStore.userId) {
+        return Promise.resolve()
+      }
+
       return GetSetting().then(res => {
         const data = res.data || {}
 

@@ -9,7 +9,13 @@ class User extends Service {
     return result;
   }
 
-  async findUser(username) {
+  async findUser(userId) {
+    const result = await this.app.mysql.get('app_user', { id: userId });
+
+    return result;
+  }
+
+  async findUserByName(username) {
     const result = await this.app.mysql.get('app_user', { username });
 
     return result;
@@ -27,10 +33,10 @@ class User extends Service {
     return result;
   }
 
-  async resetPassword(username, password) {
+  async resetPassword(userId, password) {
     const options = {
       where: {
-        username,
+        id: userId,
       },
     };
 

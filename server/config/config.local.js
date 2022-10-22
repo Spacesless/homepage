@@ -17,9 +17,9 @@ module.exports = () => {
         // 端口号
         port: '3306',
         // 用户名
-        user: 'root',
+        user: 'homepage',
         // 密码
-        password: 'root',
+        password: 'jsjMjNwPkMXGiAeS',
         // 数据库名
         database: 'homepage',
       },

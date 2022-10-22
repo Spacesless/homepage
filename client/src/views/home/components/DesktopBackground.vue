@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed } from 'vue'
 import { useSettingStore } from '@/store/setting'
 import type { MenuProps } from 'ant-design-vue'
 import AddIcon from './setting/AddIcon.vue'

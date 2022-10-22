@@ -7,7 +7,7 @@ class UserController extends Controller {
     const { ctx, service } = this;
     const params = ctx.request.body;
 
-    const findUser = await service.user.findUser(params.username);
+    const findUser = await service.user.findUserByName(params.username);
 
     if (findUser) {
       return this.fail('用户名已被使用');
@@ -26,7 +26,7 @@ class UserController extends Controller {
     const { ctx, service } = this;
     const params = ctx.request.body;
 
-    const findUser = await service.user.findUser(params.username);
+    const findUser = await service.user.findUserByName(params.username);
 
     if (findUser) {
       const { id, username, password } = findUser;
@@ -55,11 +55,38 @@ class UserController extends Controller {
     return this.success();
   }
 
+  async changePassword() {
+    const { ctx, service } = this;
+    const params = ctx.request.body;
+
+    const userId = this.ctx.session.userId
+    if(!userId) {
+      return this.fail('请先登录')
+    }
+
+    const findUser = await service.user.findUser(ctx.session.userId);
+
+    const { oldPassword, password } = params
+    if(findUser) {
+      if(oldPassword === findUser.password) {
+        const result = await service.user.resetPassword(userId, password);
+
+        if (result.affectedRows === 1) {
+          this.ctx.session.userId = null
+          return this.success('修改密码成功，请重新登录')
+        }
+      }
+      return this.fail('原密码不正确')
+    }
+
+    return this.fail('修改密码失败')
+  }
+
   async checkUsername() {
     const { ctx, service } = this;
     const params = ctx.request.body;
 
-    const findUser = await service.user.findUser(params.username);
+    const findUser = await service.user.findUserByName(params.username);
 
     if (findUser) {
       ctx.session.resetUsername = findUser.username;
@@ -79,7 +106,7 @@ class UserController extends Controller {
       return this.fail('请先验证用户名');
     }
 
-    const findUser = await service.user.findUser(ctx.session.resetUsername);
+    const findUser = await service.user.findUserByName(ctx.session.resetUsername);
 
     if (findUser) {
       const { answer, tip } = findUser;
@@ -98,10 +125,10 @@ class UserController extends Controller {
   async reset() {
     const { ctx, service } = this;
     const params = ctx.request.body;
-    console.log(ctx.session)
-    const { resetUsername, resetCheck } = ctx.session;
-    if (resetUsername && resetCheck) {
-      const result = await service.user.resetPassword(resetUsername, params.password);
+
+    const { userId, resetCheck } = ctx.session;
+    if (userId && resetCheck) {
+      const result = await service.user.resetPassword(userId, params.password);
 
       if (result.affectedRows === 1) {
         ctx.session.userId = null

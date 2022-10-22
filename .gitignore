@@ -12,7 +12,8 @@ dist
 dist-ssr
 *.local
 coverage/
-run
+server/run
+server/config/config.prod.js
 
 # Editor directories and files
 .vscode/*

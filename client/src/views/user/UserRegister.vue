@@ -9,7 +9,14 @@
         <a-input v-model:value="formState.username" size="large" placeholder="请输入用户名" />
       </a-form-item>
 
-      <a-form-item label="密码" name="password" :rules="[{ required: true, message: '请输入密码' }]">
+      <a-form-item
+        label="密码"
+        name="password"
+        :rules="[
+          { required: true, message: '请输入密码' },
+          { min: 6, message: '请输入至少6位字符' }
+        ]"
+      >
         <a-input-password v-model:value="formState.password" size="large" placeholder="请输入密码" />
       </a-form-item>
 
