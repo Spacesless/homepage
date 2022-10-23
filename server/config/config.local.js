@@ -25,7 +25,9 @@ module.exports = () => {
       },
     },
     security: {
-      csrf: false,
+      csrf: {
+        enable: false,
+      },
     },
   };
 
